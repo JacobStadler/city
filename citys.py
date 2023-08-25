@@ -148,7 +148,11 @@ def neighbors(city):
         random_city = r.randint(0,total_amount_of_cities)
         if tcities[random_city] not in tcities[city].neighbor:
             tcities[city].add_neighbor(tcities[random_city])
+            tcities[random_city].add_neighbor(tcities[city])
             added_n += 1
+
+for i in range(total_amount_of_cities):
+    neighbors(tcities[i])
 
 total_amount_of_people = 1000
 ppl = []
