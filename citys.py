@@ -9,7 +9,7 @@ Art = ['Focus on abstract', 'Focus on realism', 'Focus on realism', 'Focus on im
 Music = ['String focus', 'Woodwind focus', 'Percussion focus', 'Brass focus', 'Mixed focus', 'No focus', 'Wide focus']
 Resource = ['Inland-water', 'Ocean', 'Farmland', 'Lumber', 'Quarry[stone]', 'Mine[ores/gems]', 'Finished Goods', 'Exotics']
 Gender = ['Male','Female','Non-Binary']
-GenderRolls = ['Equal', 'Patriacle', 'Matriachal']
+GenderRolls = ['Equal', 'Patriarchal', 'Matriarchal']
 Trade = ['Abundance', 'Some', 'Very little', 'None']
 Events = ['Events through the year','A few major events','No major events']
 Verted = ['Introverted','Extroverted'] # the idea is this will affect thier likyhood to like cities with more events
@@ -107,60 +107,62 @@ class Citizen():
         #print(round(metch/total,2))
         return round(metch/total,2)*100
 
-tom = City('tom')
-randy = City('randy')
-brad = City('brad')
-joel = City('joel')
-man = City('man')
+#tom = City('tom')
+#randy = City('randy')
+#brad = City('brad')
+#joel = City('joel')
+#man = City('man')
 
 # t --- r
 # | \ / |
 # |  m  |
 # | / \ |
 # b --- j
-cities = [tom,randy,brad,joel,man]
-tom.add_neighbor(randy)
-tom.add_neighbor(brad)
-tom.add_neighbor(man)
-randy.add_neighbor(tom)
-randy.add_neighbor(joel)
-randy.add_neighbor(man)
-brad.add_neighbor(tom)
-brad.add_neighbor(joel)
-brad.add_neighbor(man)
-joel.add_neighbor(brad)
-joel.add_neighbor(randy)
-joel.add_neighbor(man)
-man.add_neighbor(tom)
-man.add_neighbor(randy)
-man.add_neighbor(joel)
-man.add_neighbor(brad)
+#cities = [tom,randy,brad,joel,man]
+#tom.add_neighbor(randy)
+#tom.add_neighbor(brad)
+#tom.add_neighbor(man)
+#randy.add_neighbor(tom)
+#randy.add_neighbor(joel)
+#randy.add_neighbor(man)
+#brad.add_neighbor(tom)
+#brad.add_neighbor(joel)
+#brad.add_neighbor(man)
+#joel.add_neighbor(brad)
+#joel.add_neighbor(randy)
+#joel.add_neighbor(man)
+#man.add_neighbor(tom)
+#man.add_neighbor(randy)
+#man.add_neighbor(joel)
+#man.add_neighbor(brad)
 
 total_amount_of_cities = 10
-tcities = []
+cities = []
 for i in range(total_amount_of_cities):
-    tcities.append(City(i))
+    cities.append(City(i))
 
 def neighbors(city):
     # this is for randomally asigning neighbors but neighbor relations have to be mutual like:
     added_n = 0
     while added_n < 2:
-        random_city = r.randint(0,total_amount_of_cities)
-        if tcities[random_city] not in tcities[city].neighbor:
-            tcities[city].add_neighbor(tcities[random_city])
-            tcities[random_city].add_neighbor(tcities[city])
+        random_city = r.randint(0,total_amount_of_cities-1)
+        print(f'tt {cities[random_city]} {city.neighbors}' )
+        if cities[random_city] not in city.neighbors:
+            city.add_neighbor(cities[random_city])
+            cities[random_city].add_neighbor(city)
             added_n += 1
 
 for i in range(total_amount_of_cities):
-    neighbors(tcities[i])
+    neighbors(cities[i])
 
-total_amount_of_people = 1000
+total_amount_of_people = 2000
 ppl = []
 for i in range(total_amount_of_people):
     ppl.append(Citizen(i))
+
 num_of_ppl = 0
 while num_of_ppl < total_amount_of_people:
-    city = r.randint(0,4)
+    city = r.randint(0,total_amount_of_cities-1)
     cities[city].add_citizen(ppl[num_of_ppl])
     ppl[num_of_ppl].occupy = cities[city]
     num_of_ppl += 1
@@ -229,8 +231,11 @@ def city_info(c):
     Resource :      {Resource[c.resource]}
         ''')
 
-city_info(tom)
-city_info(randy)
-city_info(joel)
-city_info(brad)
-city_info(man)
+for i in range(total_amount_of_cities):
+    city_info(cities[i])
+
+#city_info(tom)
+#city_info(randy)
+#city_info(joel)
+#city_info(brad)
+#city_info(man)
