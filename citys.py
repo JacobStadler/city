@@ -1,8 +1,4 @@
 import random as r
-#import time as t
-
-#ts = t.time()
-#print(ts)
 
 Caste = ['All equal', 'Strong Lead', 'Born Into', 'Employment', 'Skill']
 Religion = ['No one major religion', 'Monothieistic', 'Polythieistic', 'Atheistic']
@@ -10,23 +6,17 @@ Language = ['Abundance of language', 'One major language', 'A couple major langu
 Languages = ['FirtLang','SecLang','ThiLang','FifLang','SixLang','SevLeng','EigLang','NinLang','TenLeng']
 Food = ['Focus on spices', 'Focus on herbs', 'Focus on sweetness', 'Focus on savory', 'Focus on unseasoned', 'Mixed food focus', 'All focuses']
 Art = ['Focus on abstract', 'Focus on realism', 'Focus on realism', 'Focus on impressionism', 'No real focus', 'Sporatic focus']
-
 Music = ['String focus', 'Woodwind focus', 'Percussion focus', 'Brass focus', 'Mixed focus', 'No focus', 'Wide focus']
 Resource = ['Inland-water', 'Ocean', 'Farmland', 'Lumber', 'Quarry[stone]', 'Mine[ores/gems]', 'Finished Goods', 'Exotics']
-
 Gender = ['Male','Female','Non-Binary']
-
 GenderRolls = ['Equal', 'Patriacle', 'Matriachal']
 Trade = ['Abundance', 'Some', 'Very little', 'None']
 Events = ['Events through the year','A few major events','No major events']
-
 Verted = ['Introverted','Extroverted'] # the idea is this will affect thier likyhood to like cities with more events
-
 Authority = ['No major authority', 'Single ruler', 'Council', 'Single ruler with council', 'Elected single ruler', 'Elected council', 'Elected single ruler and council']
 Authority0 = ['Elected','No major authority','Inherited']
 # if Authority0 is 0 or 2 then also need to select from Authority1
 Authority1 = ['Single ruler','Single ruler with inherited council','Single ruler with elected council','Council']
-
 
 class City():
     def __init__(self,name):
@@ -60,7 +50,6 @@ class City():
         self.population -= 1
     def add_neighbor(self,insert):
         self.neighbors.append(insert)
-
 
 # my basic idea is that each citizen has a opinion on each of these from 0-1 0 being strong dislike and 1 being strong like.
 # basically I will call a routine that will cause them to move if they view another city as more likeable
@@ -154,11 +143,20 @@ for i in range(total_amount_of_cities):
 
 def neighbors():
     # this is for randomally asigning neighbors but neighbor relations have to be mutual like:
-    random_city_one = r.randint(0,total_amount_of_cities)
-    random_city_two = r.randint(0,total_amount_of_cities)
-    tcities[random_city_one].add_neighbor(tcities[random_city_two])
-    tcities[random_city_two].add_neighbor(tcities[random_city_one])
-    print("temp")
+    while True:
+        reroll = 0
+        random_city_one = r.randint(0,total_amount_of_cities)
+        random_city_two = r.randint(0,total_amount_of_cities)
+        if tcities[random_city_two] in tcities[random_city_one].neighbor:
+            reroll += 1
+            print('reroll')
+        if tcities[random_city_one] in tcities[random_city_two].neighbor:
+            reroll += 1
+            print('reroll')
+        if reroll == 0:
+            tcities[random_city_one].add_neighbor(tcities[random_city_two])
+            tcities[random_city_two].add_neighbor(tcities[random_city_one])
+            break
 
 total_amount_of_people = 1000
 ppl = []
