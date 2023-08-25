@@ -141,22 +141,14 @@ tcities = []
 for i in range(total_amount_of_cities):
     tcities.append(City(i))
 
-def neighbors():
+def neighbors(city):
     # this is for randomally asigning neighbors but neighbor relations have to be mutual like:
-    while True:
-        reroll = 0
-        random_city_one = r.randint(0,total_amount_of_cities)
-        random_city_two = r.randint(0,total_amount_of_cities)
-        if tcities[random_city_two] in tcities[random_city_one].neighbor:
-            reroll += 1
-            #print('reroll')
-        if tcities[random_city_one] in tcities[random_city_two].neighbor:
-            reroll += 1
-            #print('reroll')
-        if reroll == 0:
-            tcities[random_city_one].add_neighbor(tcities[random_city_two])
-            tcities[random_city_two].add_neighbor(tcities[random_city_one])
-            break
+    added_n = 0
+    while added_n < 2:
+        random_city = r.randint(0,total_amount_of_cities)
+        if tcities[random_city] not in tcities[city].neighbor:
+            tcities[city].add_neighbor(tcities[random_city])
+            added_n += 1
 
 total_amount_of_people = 1000
 ppl = []
