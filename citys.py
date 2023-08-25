@@ -149,10 +149,10 @@ def neighbors():
         random_city_two = r.randint(0,total_amount_of_cities)
         if tcities[random_city_two] in tcities[random_city_one].neighbor:
             reroll += 1
-            print('reroll')
+            #print('reroll')
         if tcities[random_city_one] in tcities[random_city_two].neighbor:
             reroll += 1
-            print('reroll')
+            #print('reroll')
         if reroll == 0:
             tcities[random_city_one].add_neighbor(tcities[random_city_two])
             tcities[random_city_two].add_neighbor(tcities[random_city_one])
