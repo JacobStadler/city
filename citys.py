@@ -146,7 +146,7 @@ man.add_neighbor(tom)
 man.add_neighbor(randy)
 man.add_neighbor(joel)
 man.add_neighbor(brad)
-total_amount_of_people = 500
+total_amount_of_people = 1000
 ppl = []
 for i in range(total_amount_of_people):
     ppl.append(Citizen(i))
@@ -169,7 +169,7 @@ while counter < man_r:
 cycles = 3
 while cycles > 0:
     moves = 0
-    civs = 100
+    civs = total_amount_of_people
     while civs > 0:
         pers = ppl[civs-1]
         civ_like_store = []
@@ -206,7 +206,7 @@ def city_info(c):
         i += 1
     print(f'''
     City :          {c.name}
-    Avg Approval :   {round(total_aproval/c.population,2)}
+    Avg Approval :  {round(total_aproval/c.population,2)}
     Pop:            {c.population}
     Auth:           {Authority0[c.authority[0]]} {Authority1[c.authority[1]]}
     Trade:          {Trade[c.trade]}
