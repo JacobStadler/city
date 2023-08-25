@@ -148,16 +148,16 @@ man.add_neighbor(joel)
 man.add_neighbor(brad)
 
 total_amount_of_cities = 10
-cities = []
+tcities = []
 for i in range(total_amount_of_cities):
-    cities.append(City(i))
+    tcities.append(City(i))
 
 def neighbors():
     # this is for randomally asigning neighbors but neighbor relations have to be mutual like:
     random_city_one = r.randint(0,total_amount_of_cities)
     random_city_two = r.randint(0,total_amount_of_cities)
-    cities[random_city_one].add_neighbor(cities[random_city_two])
-    cities[random_city_two].add_neighbor(cities[random_city_one])
+    tcities[random_city_one].add_neighbor(tcities[random_city_two])
+    tcities[random_city_two].add_neighbor(tcities[random_city_one])
     print("temp")
 
 total_amount_of_people = 1000
