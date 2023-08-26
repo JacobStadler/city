@@ -1,5 +1,7 @@
 import random as r
-
+import sys
+import graphviz
+graphviz.graph("exmpl")
 Caste = ['All equal', 'Strong Lead', 'Born Into', 'Employment', 'Skill']
 Religion = ['No one major religion', 'Monothieistic', 'Polythieistic', 'Atheistic']
 Language = ['Abundance of language', 'One major language', 'A couple major languages']
