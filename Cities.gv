@@ -1,0 +1,192 @@
+digraph Cities {
+	0 [shape=square]
+	1 [shape=square]
+	2 [shape=square]
+	3 [shape=square]
+	4 [shape=square]
+	5 [shape=square]
+	6 [shape=square]
+	7 [shape=square]
+	8 [shape=square]
+	9 [shape=square]
+	8 -> 0 [dir=both]
+	3 -> 0 [dir=both]
+	5 -> 1 [dir=both]
+	9 -> 1 [dir=both]
+	6 -> 2 [dir=both]
+	0 -> 2 [dir=both]
+	2 -> 3 [dir=both]
+	7 -> 3 [dir=both]
+	5 -> 4 [dir=both]
+	7 -> 4 [dir=both]
+	9 -> 5 [dir=both]
+	0 -> 5 [dir=both]
+	8 -> 6 [dir=both]
+	5 -> 6 [dir=both]
+	8 -> 7 [dir=both]
+	9 -> 7 [dir=both]
+	5 -> 8 [dir=both]
+	1 -> 8 [dir=both]
+	3 -> 9 [dir=both]
+	2 -> 9 [dir=both]
+	0 [label="
+    City :          0\l
+    Avg Approval :  34.7\l
+    Pop:            294\l
+    Auth:           No major authority Council\l
+    Trade:          Abundance\l
+    Gender Roles:   Matriarchal\l
+    Events :        No major events\l
+    Religion :      No one major religion\l
+    Caste :         All equal\l
+    Language :      A couple major languages\l
+    Food :          All focuses\l
+    Art:            Focus on impressionism\l
+    Music :         String focus\l
+    Resource :      Finished Goods\l
+    "]
+	1 [label="
+    City :          1\l
+    Avg Approval :  34.24\l
+    Pop:            150\l
+    Auth:           No major authority Single ruler with elected council\l
+    Trade:          Very little\l
+    Gender Roles:   Patriarchal\l
+    Events :        A few major events\l
+    Religion :      No one major religion\l
+    Caste :         Strong Lead\l
+    Language :      One major language\l
+    Food :          Focus on unseasoned\l
+    Art:            Sporatic focus\l
+    Music :         String focus\l
+    Resource :      Quarry[stone]\l
+    "]
+	2 [label="
+    City :          2\l
+    Avg Approval :  35.52\l
+    Pop:            200\l
+    Auth:           Inherited Single ruler with elected council\l
+    Trade:          Some\l
+    Gender Roles:   Equal\l
+    Events :        A few major events\l
+    Religion :      No one major religion\l
+    Caste :         Employment\l
+    Language :      Abundance of language\l
+    Food :          Focus on savory\l
+    Art:            Focus on realism\l
+    Music :         Woodwind focus\l
+    Resource :      Farmland\l
+    "]
+	3 [label="
+    City :          3\l
+    Avg Approval :  35.79\l
+    Pop:            232\l
+    Auth:           Inherited Single ruler with inherited council\l
+    Trade:          Very little\l
+    Gender Roles:   Equal\l
+    Events :        No major events\l
+    Religion :      Monothieistic\l
+    Caste :         Strong Lead\l
+    Language :      A couple major languages\l
+    Food :          Focus on spices\l
+    Art:            No real focus\l
+    Music :         Percussion focus\l
+    Resource :      Inland-water\l
+    "]
+	4 [label="
+    City :          4\l
+    Avg Approval :  31.87\l
+    Pop:            218\l
+    Auth:           No major authority Single ruler with inherited council\l
+    Trade:          Abundance\l
+    Gender Roles:   Patriarchal\l
+    Events :        Events through the year\l
+    Religion :      Atheistic\l
+    Caste :         Born Into\l
+    Language :      One major language\l
+    Food :          Focus on unseasoned\l
+    Art:            No real focus\l
+    Music :         Wide focus\l
+    Resource :      Mine[ores/gems]\l
+    "]
+	5 [label="
+    City :          5\l
+    Avg Approval :  38.69\l
+    Pop:            177\l
+    Auth:           Elected Council\l
+    Trade:          Very little\l
+    Gender Roles:   Matriarchal\l
+    Events :        A few major events\l
+    Religion :      Atheistic\l
+    Caste :         Skill\l
+    Language :      One major language\l
+    Food :          Focus on herbs\l
+    Art:            Focus on realism\l
+    Music :         Percussion focus\l
+    Resource :      Exotics\l
+    "]
+	6 [label="
+    City :          6\l
+    Avg Approval :  33.96\l
+    Pop:            235\l
+    Auth:           No major authority Single ruler with inherited council\l
+    Trade:          Very little\l
+    Gender Roles:   Equal\l
+    Events :        A few major events\l
+    Religion :      Monothieistic\l
+    Caste :         Employment\l
+    Language :      Abundance of language\l
+    Food :          All focuses\l
+    Art:            Sporatic focus\l
+    Music :         Mixed focus\l
+    Resource :      Lumber\l
+    "]
+	7 [label="
+    City :          7\l
+    Avg Approval :  37.63\l
+    Pop:            172\l
+    Auth:           Elected Single ruler with inherited council\l
+    Trade:          Very little\l
+    Gender Roles:   Equal\l
+    Events :        No major events\l
+    Religion :      No one major religion\l
+    Caste :         Born Into\l
+    Language :      Abundance of language\l
+    Food :          Focus on savory\l
+    Art:            Focus on realism\l
+    Music :         Percussion focus\l
+    Resource :      Ocean\l
+    "]
+	8 [label="
+    City :          8\l
+    Avg Approval :  37.57\l
+    Pop:            179\l
+    Auth:           Elected Single ruler\l
+    Trade:          Very little\l
+    Gender Roles:   Patriarchal\l
+    Events :        A few major events\l
+    Religion :      No one major religion\l
+    Caste :         Strong Lead\l
+    Language :      A couple major languages\l
+    Food :          Focus on unseasoned\l
+    Art:            Focus on impressionism\l
+    Music :         Percussion focus\l
+    Resource :      Ocean\l
+    "]
+	9 [label="
+    City :          9\l
+    Avg Approval :  37.17\l
+    Pop:            143\l
+    Auth:           Inherited Single ruler with elected council\l
+    Trade:          None\l
+    Gender Roles:   Equal\l
+    Events :        Events through the year\l
+    Religion :      Monothieistic\l
+    Caste :         Skill\l
+    Language :      A couple major languages\l
+    Food :          Focus on sweetness\l
+    Art:            Focus on abstract\l
+    Music :         Woodwind focus\l
+    Resource :      Ocean\l
+    "]
+}
