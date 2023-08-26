@@ -1,5 +1,4 @@
 import random as r
-import os
 import graphviz as gv
 dot = gv.Digraph('Cities')
 #G = gv.AGraph()
@@ -201,5 +200,3 @@ for i in range(total_amount_of_cities):
     city_info(cities[i])
 
 dot.render(view=True)
-#os.rename("./Cities.gv.pdf","./Cities.gv.pdf.gitignore")
-#os.rename("./Cities.gv","./Cities.gv.gitignore")
