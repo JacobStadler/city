@@ -1,7 +1,10 @@
 import random as r
 import sys
-import graphviz
-graphviz.graph("exmpl")
+import graphviz as gv
+#import networkx as nx
+#import pylab as plt
+#from networkx.drawing.nx_agraph import graphviz_layout
+dot = gv.Graph("exmpl")
 Caste = ['All equal', 'Strong Lead', 'Born Into', 'Employment', 'Skill']
 Religion = ['No one major religion', 'Monothieistic', 'Polythieistic', 'Atheistic']
 Language = ['Abundance of language', 'One major language', 'A couple major languages']
@@ -142,6 +145,7 @@ total_amount_of_cities = 10
 cities = []
 for i in range(total_amount_of_cities):
     cities.append(City(i))
+    dot.node(i)
 
 def neighbors(city):
     # this is for randomally asigning neighbors but neighbor relations have to be mutual like:
@@ -151,6 +155,7 @@ def neighbors(city):
         print(f'tt {cities[random_city]} {city.neighbors}' )
         if cities[random_city] not in city.neighbors:
             city.add_neighbor(cities[random_city])
+            dot.edge(cities[random_city].name,city.name)
             cities[random_city].add_neighbor(city)
             added_n += 1
 
@@ -241,3 +246,4 @@ for i in range(total_amount_of_cities):
 #city_info(joel)
 #city_info(brad)
 #city_info(man)
+gv.render()
