@@ -17,7 +17,8 @@ Gender = ['Male','Female','Non-Binary']
 GenderRolls = ['Equal', 'Patriarchal', 'Matriarchal']
 Trade = ['Abundance', 'Some', 'Very little', 'None']
 Events = ['Events through the year','A few major events','No major events']
-Verted = ['Introverted','Extroverted'] # the idea is this will affect thier likyhood to like cities with more events
+Verted = ['Introverted','Extroverted'] 
+# the idea is this will affect thier likyhood to like cities with more events
 Authority = ['No major authority', 'Single ruler', 'Council', 'Single ruler with council', 'Elected single ruler', 'Elected council', 'Elected single ruler and council']
 Authority0 = ['Elected','No major authority','Inherited']
 # if Authority0 is 0 or 2 then also need to select from Authority1
@@ -48,7 +49,6 @@ class City():
         i = 0
         while i < len(self.residents):
             if self.residents[i].id == civ.id:
-                #print(f'removed {self.residents[i].id}  | intended : {civ.id}')
                 self.residents.pop(i)
                 break
             i += 1
@@ -109,37 +109,7 @@ class Citizen():
             metch += 1
         if self.resource_pref == city.resource:
             metch += 1
-        #print(round(metch/total,2))
         return round(metch/total,2)*100
-
-#tom = City('tom')
-#randy = City('randy')
-#brad = City('brad')
-#joel = City('joel')
-#man = City('man')
-
-# t --- r
-# | \ / |
-# |  m  |
-# | / \ |
-# b --- j
-#cities = [tom,randy,brad,joel,man]
-#tom.add_neighbor(randy)
-#tom.add_neighbor(brad)
-#tom.add_neighbor(man)
-#randy.add_neighbor(tom)
-#randy.add_neighbor(joel)
-#randy.add_neighbor(man)
-#brad.add_neighbor(tom)
-#brad.add_neighbor(joel)
-#brad.add_neighbor(man)
-#joel.add_neighbor(brad)
-#joel.add_neighbor(randy)
-#joel.add_neighbor(man)
-#man.add_neighbor(tom)
-#man.add_neighbor(randy)
-#man.add_neighbor(joel)
-#man.add_neighbor(brad)
 
 total_amount_of_cities = 10
 cities = []
@@ -148,7 +118,6 @@ for i in range(total_amount_of_cities):
     dot.node(i)
 
 def neighbors(city):
-    # this is for randomally asigning neighbors but neighbor relations have to be mutual like:
     added_n = 0
     while added_n < 2:
         random_city = r.randint(0,total_amount_of_cities-1)
@@ -174,15 +143,6 @@ while num_of_ppl < total_amount_of_people:
     ppl[num_of_ppl].occupy = cities[city]
     num_of_ppl += 1
 
-"""man_r = len(man.residents)
-counter = 0
-while counter < man_r:
-    print(man.residents[counter].id)
-    counter += 1"""
-#occ = ppl[1].occupy
-#print(occ.name)
-#print(ppl[1].like(occ))
-
 cycles = 3
 while cycles > 0:
     moves = 0
@@ -192,7 +152,6 @@ while cycles > 0:
         civ_like_store = []
         civ_like_score = []
         civ_city = pers.occupy
-        #print(f'{pers.id} lives in {civ_city.name}')
         civ_like_store.append(pers.occupy)
         civ_like_score.append(pers.like(pers.occupy))
         highest_like = 0
@@ -210,7 +169,6 @@ while cycles > 0:
             civ_city.rem_citizen(pers)
             civ_city.neighbors[highest_like-1].add_citizen(pers)
             pers.add_occupance(civ_city.neighbors[highest_like-1])
-            #print(f'{pers.occupy.name}')
         civs -= 1
     print(f'\nmoves : {moves}\n')
     cycles -= 1
@@ -241,9 +199,4 @@ def city_info(c):
 for i in range(total_amount_of_cities):
     city_info(cities[i])
 
-#city_info(tom)
-#city_info(randy)
-#city_info(joel)
-#city_info(brad)
-#city_info(man)
 gv.render()
