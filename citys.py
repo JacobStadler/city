@@ -53,6 +53,70 @@ class City():
         self.population -= 1
     def add_neighbor(self,insert):
         self.neighbors.append(insert)
+    def poll_residence(self):
+        most_votes = 0
+        voted_to_change = [0,0]
+        cat = ["Trade","Gender Roles","Event","Religion","Authority0","Authority1","Caste","Language","Food","Art","Music","Resource"]
+        votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+        for i in range(len(self.residents)):
+            votes[0][self.residents[i].trade_pref] += 1
+            votes[1][self.residents[i].genderroles_pref] += 1
+            votes[2][self.residents[i].event_pref] += 1
+            votes[3][self.residents[i].religion_pref] += 1
+            votes[4][self.residents[i].authority_pref[0]] += 1
+            votes[5][self.residents[i].authority_pref[1]] += 1
+            votes[6][self.residents[i].caste_pref] += 1
+            votes[7][self.residents[i].language_pref] += 1
+            votes[8][self.residents[i].food_pref] += 1
+            votes[9][self.residents[i].art_pref] += 1
+            votes[10][self.residents[i].music_pref] += 1
+            votes[11][self.residents[i].resource_pref] += 1
+        for i in votes:
+            j = 0
+            v_len = len(votes[i])
+            while j < v_len:
+                 if votes[i][j] > most_votes:
+                    most_votes = votes[i][j]
+                    voted_to_change = [i,j]
+        print_string = f"Residents of {self.name} voted to change {cat[voted_to_change[0]]} from "
+        #print(f'Residents of {self.name} voted to change {cat[voted_to_change[0]]} from {self.}')
+        match voted_to_change[0]:
+            case 0:
+                print_string += f"{Trade[self.trade]} to {Trade[voted_to_change]}"
+                self.trade = voted_to_change[1]
+            case 1:
+                print_string += f"{GenderRolls[self.trade]} to {GenderRolls[voted_to_change]}"
+                self.genderroles = voted_to_change[1]
+            case 2:
+                print_string += f"{Events[self.trade]} to {Events[voted_to_change]}"
+                self.event = voted_to_change[1]
+            case 3:
+                print_string += f"{Religion[self.trade]} to {Religion[voted_to_change]}"
+                self.religion = voted_to_change[1]
+            case 4:
+                print_string += f"{Authority0[self.trade]} to {Authority0[voted_to_change]}"
+                self.authority[0] = voted_to_change[1]
+            case 5:
+                print_string += f"{Authority1[self.trade]} to {Authority1[voted_to_change]}"
+                self.authority[1] = voted_to_change[1]
+            case 6:
+                print_string += f"{Caste[self.trade]} to {Caste[voted_to_change]}"
+                self.caste = voted_to_change[1]
+            case 7:
+                print_string += f"{Language[self.trade]} to {Language[voted_to_change]}"
+                self.language = voted_to_change[1]
+            case 8:
+                print_string += f"{Food[self.trade]} to {Food[voted_to_change]}"
+                self.food = voted_to_change[1]
+            case 9:
+                print_string += f"{Art[self.trade]} to {Art[voted_to_change]}"
+                self.art = voted_to_change[1]
+            case 10:
+                print_string += f"{Music[self.trade]} to {Music[voted_to_change]}"
+                self.music = voted_to_change[1]
+            case 11:
+                print_string += f"{Resource[self.trade]} to {Resource[voted_to_change]}"
+                self.resource = voted_to_change[1]
 
 # my basic idea is that each citizen has a opinion on each of these from 0-1 0 being strong dislike and 1 being strong like.
 # basically I will call a routine that will cause them to move if they view another city as more likeable
@@ -169,6 +233,8 @@ while cycles > 0:
             pers.add_occupance(civ_city.neighbors[highest_like-1])
         civs -= 1
     print(f'\nmoves : {moves}\n')
+    for i in range(total_amount_of_cities):
+        cities[i].poll_residence()
     cycles -= 1
 
 def city_info(c):
@@ -197,6 +263,6 @@ def city_info(c):
 
 for i in range(total_amount_of_cities):
     dot.node(f'{i}',label=f'{city_info(cities[i])}')
-    city_info(cities[i])
+    #city_info(cities[i])
 
 dot.render(view=True)
