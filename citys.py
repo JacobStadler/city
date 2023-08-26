@@ -1,6 +1,9 @@
 import random as r
+import os
 import graphviz as gv
 dot = gv.Digraph('Cities')
+#G = gv.AGraph()
+#dot.graph_attr.update(size="10,10")
 Caste = ['All equal', 'Strong Lead', 'Born Into', 'Employment', 'Skill']
 Religion = ['No one major religion', 'Monothieistic', 'Polythieistic', 'Atheistic']
 Language = ['Abundance of language', 'One major language', 'A couple major languages']
@@ -111,7 +114,7 @@ total_amount_of_cities = 10
 cities = []
 for i in range(total_amount_of_cities):
     cities.append(City(i))
-    dot.node(f'{i}',f'{i}')
+    dot.node(f'{i}',shape="square")
 
 def neighbors(city):
     added_n = 0
@@ -175,24 +178,28 @@ def city_info(c):
     while i < len(c.residents):
         total_aproval += c.residents[i].like(c)
         i += 1
-    print(f'''
-    City :          {c.name}
-    Avg Approval :  {round(total_aproval/c.population,2)}
-    Pop:            {c.population}
-    Auth:           {Authority0[c.authority[0]]} {Authority1[c.authority[1]]}
-    Trade:          {Trade[c.trade]}
-    Gender Roles:   {GenderRolls[c.genderroles]}
-    Events :        {Events[c.event]}
-    Religion :      {Religion[c.religion]}
-    Caste :         {Caste[c.caste]}
-    Language :      {Language[c.language]}
-    Food :          {Food[c.food]}
-    Art:            {Art[c.art]}
-    Music :         {Music[c.music]}
-    Resource :      {Resource[c.resource]}
-    ''')
+    string = f'''
+    City :          {c.name}\l
+    Avg Approval :  {round(total_aproval/c.population,2)}\l
+    Pop:            {c.population}\l
+    Auth:           {Authority0[c.authority[0]]} {Authority1[c.authority[1]]}\l
+    Trade:          {Trade[c.trade]}\l
+    Gender Roles:   {GenderRolls[c.genderroles]}\l
+    Events :        {Events[c.event]}\l
+    Religion :      {Religion[c.religion]}\l
+    Caste :         {Caste[c.caste]}\l
+    Language :      {Language[c.language]}\l
+    Food :          {Food[c.food]}\l
+    Art:            {Art[c.art]}\l
+    Music :         {Music[c.music]}\l
+    Resource :      {Resource[c.resource]}\l
+    '''
+    return string
 
 for i in range(total_amount_of_cities):
+    dot.node(f'{i}',label=f'{city_info(cities[i])}')
     city_info(cities[i])
 
 dot.render(view=True)
+os.rename("./Cities.gv.pdf","./Cities.gv.pdf.gitignore")
+os.rename("./Cities.gv","./Cities.gv.gitignore")
