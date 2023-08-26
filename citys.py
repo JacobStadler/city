@@ -139,7 +139,7 @@ while num_of_ppl < total_amount_of_people:
     ppl[num_of_ppl].occupy = cities[city]
     num_of_ppl += 1
 
-cycles = 3
+cycles = 4
 while cycles > 0:
     moves = 0
     civs = total_amount_of_people
@@ -190,7 +190,7 @@ def city_info(c):
     Art:            {Art[c.art]}
     Music :         {Music[c.music]}
     Resource :      {Resource[c.resource]}
-        ''')
+    ''')
 
 for i in range(total_amount_of_cities):
     city_info(cities[i])
