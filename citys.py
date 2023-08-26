@@ -1,10 +1,6 @@
 import random as r
-import sys
 import graphviz as gv
-#import networkx as nx
-#import pylab as plt
-#from networkx.drawing.nx_agraph import graphviz_layout
-dot = gv.Graph("exmpl")
+dot = gv.Digraph('Cities')
 Caste = ['All equal', 'Strong Lead', 'Born Into', 'Employment', 'Skill']
 Religion = ['No one major religion', 'Monothieistic', 'Polythieistic', 'Atheistic']
 Language = ['Abundance of language', 'One major language', 'A couple major languages']
@@ -115,16 +111,16 @@ total_amount_of_cities = 10
 cities = []
 for i in range(total_amount_of_cities):
     cities.append(City(i))
-    dot.node(i)
+    dot.node(f'{i}',f'{i}')
 
 def neighbors(city):
     added_n = 0
     while added_n < 2:
         random_city = r.randint(0,total_amount_of_cities-1)
         print(f'tt {cities[random_city]} {city.neighbors}' )
-        if cities[random_city] not in city.neighbors:
+        if cities[random_city] not in city.neighbors and cities[random_city] != city:
             city.add_neighbor(cities[random_city])
-            dot.edge(cities[random_city].name,city.name)
+            dot.edge(f'{cities[random_city].name}',f'{city.name}',dir='both')
             cities[random_city].add_neighbor(city)
             added_n += 1
 
@@ -199,4 +195,4 @@ def city_info(c):
 for i in range(total_amount_of_cities):
     city_info(cities[i])
 
-gv.render()
+dot.render(view=True)
