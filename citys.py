@@ -54,8 +54,6 @@ class City():
     def add_neighbor(self,insert):
         self.neighbors.append(insert)
     def poll_residence(self):
-        most_votes = 0
-        voted_to_change = [0,0]
         cat = ["Trade","Gender Roles","Event","Religion","Authority0","Authority1","Caste","Language","Food","Art","Music","Resource"]
         cr_slt = [self.trade,self.genderroles,self.event,self.religion,self.authority[0],self.authority[1],self.caste,self.language,self.food,self.art,self.music,self.resource]
         votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
@@ -74,8 +72,6 @@ class City():
             votes[11][self.residents[i].resource_pref] += 1
 
         biggest_dif = [0,0]
-        #start_trade = self.trade
-        #ml_trade = self.trade
         diff = ''
         for i in range(len(votes)):
             for j in range(len(votes[i])):
@@ -94,44 +90,45 @@ class City():
         voted_to_change = biggest_dif
         print_string = f"{diff}Residents of {self.name} voted to change {cat[voted_to_change[0]]} from "
         #print(f'Residents of {self.name} voted to change {cat[voted_to_change[0]]} from {self.}')
-        match voted_to_change[0]:
-            case 0:
-                print_string += f"{Trade[self.trade]} to {Trade[voted_to_change[1]]}"
-                self.trade = voted_to_change[1]
-            case 1:
-                print_string += f"{GenderRolls[self.genderroles]} to {GenderRolls[voted_to_change[1]]}"
-                self.genderroles = voted_to_change[1]
-            case 2:
-                print_string += f"{Events[self.event]} to {Events[voted_to_change[1]]}"
-                self.event = voted_to_change[1]
-            case 3:
-                print_string += f"{Religion[self.religion]} to {Religion[voted_to_change[1]]}"
-                self.religion = voted_to_change[1]
-            case 4:
-                print_string += f"{Authority0[self.authority[0]]} to {Authority0[voted_to_change[1]]}"
-                self.authority[0] = voted_to_change[1]
-            case 5:
-                print_string += f"{Authority1[self.authority[1]]} to {Authority1[voted_to_change[1]]}"
-                self.authority[1] = voted_to_change[1]
-            case 6:
-                print_string += f"{Caste[self.caste]} to {Caste[voted_to_change[1]]}"
-                self.caste = voted_to_change[1]
-            case 7:
-                print_string += f"{Language[self.language]} to {Language[voted_to_change[1]]}"
-                self.language = voted_to_change[1]
-            case 8:
-                print_string += f"{Food[self.food]} to {Food[voted_to_change[1]]}"
-                self.food = voted_to_change[1]
-            case 9:
-                print_string += f"{Art[self.art]} to {Art[voted_to_change[1]]}"
-                self.art = voted_to_change[1]
-            case 10:
-                print_string += f"{Music[self.music]} to {Music[voted_to_change[1]]}"
-                self.music = voted_to_change[1]
-            case 11:
-                print_string += f"{Resource[self.resource]} to {Resource[voted_to_change[1]]}"
-                self.resource = voted_to_change[1]
-        print(print_string)
+        if diff != '':
+            match voted_to_change[0]:
+                case 0:
+                    print_string += f"{Trade[self.trade]} to {Trade[voted_to_change[1]]}"
+                    self.trade = voted_to_change[1]
+                case 1:
+                    print_string += f"{GenderRolls[self.genderroles]} to {GenderRolls[voted_to_change[1]]}"
+                    self.genderroles = voted_to_change[1]
+                case 2:
+                    print_string += f"{Events[self.event]} to {Events[voted_to_change[1]]}"
+                    self.event = voted_to_change[1]
+                case 3:
+                    print_string += f"{Religion[self.religion]} to {Religion[voted_to_change[1]]}"
+                    self.religion = voted_to_change[1]
+                case 4:
+                    print_string += f"{Authority0[self.authority[0]]} to {Authority0[voted_to_change[1]]}"
+                    self.authority[0] = voted_to_change[1]
+                case 5:
+                    print_string += f"{Authority1[self.authority[1]]} to {Authority1[voted_to_change[1]]}"
+                    self.authority[1] = voted_to_change[1]
+                case 6:
+                    print_string += f"{Caste[self.caste]} to {Caste[voted_to_change[1]]}"
+                    self.caste = voted_to_change[1]
+                case 7:
+                    print_string += f"{Language[self.language]} to {Language[voted_to_change[1]]}"
+                    self.language = voted_to_change[1]
+                case 8:
+                    print_string += f"{Food[self.food]} to {Food[voted_to_change[1]]}"
+                    self.food = voted_to_change[1]
+                case 9:
+                    print_string += f"{Art[self.art]} to {Art[voted_to_change[1]]}"
+                    self.art = voted_to_change[1]
+                case 10:
+                    print_string += f"{Music[self.music]} to {Music[voted_to_change[1]]}"
+                    self.music = voted_to_change[1]
+                case 11:
+                    print_string += f"{Resource[self.resource]} to {Resource[voted_to_change[1]]}"
+                    self.resource = voted_to_change[1]
+            print(print_string)
 
 # my basic idea is that each citizen has a opinion on each of these from 0-1 0 being strong dislike and 1 being strong like.
 # basically I will call a routine that will cause them to move if they view another city as more likeable
@@ -186,17 +183,19 @@ class Citizen():
             metch += 1
         if self.resource_pref == city.resource:
             metch += 1
+        #print(f"metch: {metch}/{total} {self.id} {round(metch/total,2)*100}")
         return round(metch/total,2)*100
 
-total_amount_of_cities = 10
+total_amount_of_cities = 20
 cities = []
 for i in range(total_amount_of_cities):
     cities.append(City(i))
     dot.node(f'{i}',shape="square")
 
+city_neighbors = 5
 def neighbors(city):
     added_n = 0
-    while added_n < 2:
+    while added_n < city_neighbors:
         random_city = r.randint(0,total_amount_of_cities-1)
         #print(f'{cities[random_city]} {city.neighbors}' )
         if cities[random_city] not in city.neighbors and cities[random_city] != city:
@@ -220,7 +219,7 @@ while num_of_ppl < total_amount_of_people:
     ppl[num_of_ppl].occupy = cities[city]
     num_of_ppl += 1
 
-cycles = 4
+cycles = 10
 while cycles > 0:
     moves = 0
     civs = total_amount_of_people
@@ -260,7 +259,7 @@ def city_info(c):
         i += 1
     string = f'''
     City :          {c.name}\l
-    Avg Approval :  {round(total_aproval/c.population,2)}\l
+    Avg Approval :  {round(total_aproval/len(c.residents),2)}\l
     Pop:            {c.population}\l
     Auth:           {Authority0[c.authority[0]]} {Authority1[c.authority[1]]}\l
     Trade:          {Trade[c.trade]}\l
