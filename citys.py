@@ -57,6 +57,7 @@ class City():
         most_votes = 0
         voted_to_change = [0,0]
         cat = ["Trade","Gender Roles","Event","Religion","Authority0","Authority1","Caste","Language","Food","Art","Music","Resource"]
+        cr_slt = [self.trade,self.genderroles,self.event,self.religion,self.authority[0],self.authority[1],self.caste,self.language,self.food,self.art,self.music,self.resource]
         votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
         for i in range(len(self.residents)):
             votes[0][self.residents[i].trade_pref] += 1
@@ -71,52 +72,66 @@ class City():
             votes[9][self.residents[i].art_pref] += 1
             votes[10][self.residents[i].music_pref] += 1
             votes[11][self.residents[i].resource_pref] += 1
-        for i in votes:
-            j = 0
-            v_len = len(votes[i])
-            while j < v_len:
-                 if votes[i][j] > most_votes:
+
+        biggest_dif = [0,0]
+        #start_trade = self.trade
+        #ml_trade = self.trade
+        diff = ''
+        for i in range(len(votes)):
+            for j in range(len(votes[i])):
+                if j != cr_slt[i]:
+                    if votes[i][j] > votes[i][cr_slt[i]]:
+                        t_dif = votes[i][j] - votes[i][cr_slt[i]]
+                        if t_dif > biggest_dif[1]:
+                            diff = 'changed '
+                            biggest_dif = [i,j]
+
+        """for i in range(len(votes)):
+            for j in range(len(votes[i])):
+                if votes[i][j] > most_votes:
                     most_votes = votes[i][j]
-                    voted_to_change = [i,j]
-        print_string = f"Residents of {self.name} voted to change {cat[voted_to_change[0]]} from "
+                    voted_to_change = [i,j]"""
+        voted_to_change = biggest_dif
+        print_string = f"{diff}Residents of {self.name} voted to change {cat[voted_to_change[0]]} from "
         #print(f'Residents of {self.name} voted to change {cat[voted_to_change[0]]} from {self.}')
         match voted_to_change[0]:
             case 0:
-                print_string += f"{Trade[self.trade]} to {Trade[voted_to_change]}"
+                print_string += f"{Trade[self.trade]} to {Trade[voted_to_change[1]]}"
                 self.trade = voted_to_change[1]
             case 1:
-                print_string += f"{GenderRolls[self.trade]} to {GenderRolls[voted_to_change]}"
+                print_string += f"{GenderRolls[self.genderroles]} to {GenderRolls[voted_to_change[1]]}"
                 self.genderroles = voted_to_change[1]
             case 2:
-                print_string += f"{Events[self.trade]} to {Events[voted_to_change]}"
+                print_string += f"{Events[self.event]} to {Events[voted_to_change[1]]}"
                 self.event = voted_to_change[1]
             case 3:
-                print_string += f"{Religion[self.trade]} to {Religion[voted_to_change]}"
+                print_string += f"{Religion[self.religion]} to {Religion[voted_to_change[1]]}"
                 self.religion = voted_to_change[1]
             case 4:
-                print_string += f"{Authority0[self.trade]} to {Authority0[voted_to_change]}"
+                print_string += f"{Authority0[self.authority[0]]} to {Authority0[voted_to_change[1]]}"
                 self.authority[0] = voted_to_change[1]
             case 5:
-                print_string += f"{Authority1[self.trade]} to {Authority1[voted_to_change]}"
+                print_string += f"{Authority1[self.authority[1]]} to {Authority1[voted_to_change[1]]}"
                 self.authority[1] = voted_to_change[1]
             case 6:
-                print_string += f"{Caste[self.trade]} to {Caste[voted_to_change]}"
+                print_string += f"{Caste[self.caste]} to {Caste[voted_to_change[1]]}"
                 self.caste = voted_to_change[1]
             case 7:
-                print_string += f"{Language[self.trade]} to {Language[voted_to_change]}"
+                print_string += f"{Language[self.language]} to {Language[voted_to_change[1]]}"
                 self.language = voted_to_change[1]
             case 8:
-                print_string += f"{Food[self.trade]} to {Food[voted_to_change]}"
+                print_string += f"{Food[self.food]} to {Food[voted_to_change[1]]}"
                 self.food = voted_to_change[1]
             case 9:
-                print_string += f"{Art[self.trade]} to {Art[voted_to_change]}"
+                print_string += f"{Art[self.art]} to {Art[voted_to_change[1]]}"
                 self.art = voted_to_change[1]
             case 10:
-                print_string += f"{Music[self.trade]} to {Music[voted_to_change]}"
+                print_string += f"{Music[self.music]} to {Music[voted_to_change[1]]}"
                 self.music = voted_to_change[1]
             case 11:
-                print_string += f"{Resource[self.trade]} to {Resource[voted_to_change]}"
+                print_string += f"{Resource[self.resource]} to {Resource[voted_to_change[1]]}"
                 self.resource = voted_to_change[1]
+        print(print_string)
 
 # my basic idea is that each citizen has a opinion on each of these from 0-1 0 being strong dislike and 1 being strong like.
 # basically I will call a routine that will cause them to move if they view another city as more likeable
@@ -183,7 +198,7 @@ def neighbors(city):
     added_n = 0
     while added_n < 2:
         random_city = r.randint(0,total_amount_of_cities-1)
-        print(f'tt {cities[random_city]} {city.neighbors}' )
+        #print(f'{cities[random_city]} {city.neighbors}' )
         if cities[random_city] not in city.neighbors and cities[random_city] != city:
             city.add_neighbor(cities[random_city])
             dot.edge(f'{cities[random_city].name}',f'{city.name}',dir='both')
@@ -227,7 +242,7 @@ while cycles > 0:
             i += 1
         if highest_like != 0:
             moves += 1
-            print(f'{pers.id} moved from {civ_city.name} to {civ_city.neighbors[highest_like-1].name}')
+            #print(f'{pers.id} moved from {civ_city.name} to {civ_city.neighbors[highest_like-1].name}')
             civ_city.rem_citizen(pers)
             civ_city.neighbors[highest_like-1].add_citizen(pers)
             pers.add_occupance(civ_city.neighbors[highest_like-1])
