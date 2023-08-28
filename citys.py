@@ -168,6 +168,7 @@ for i in range(total_amount_of_cities):
 #    neighbors(cities[i])
 
 n_neighbors()
+ss_neighbor(total_amount_of_cities)
 
 moves = 1
 while moves != 0:
