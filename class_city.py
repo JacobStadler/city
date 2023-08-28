@@ -58,7 +58,7 @@ class City():
                         if t_dif > biggest_dif[1]:
                             diff = 'changed '
                             biggest_dif = [i,j]
-
+                            
         """for i in range(len(votes)):
             for j in range(len(votes[i])):
                 if votes[i][j] > most_votes:
