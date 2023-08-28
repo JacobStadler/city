@@ -1,0 +1,108 @@
+from enum_choices import *
+import random as r
+class City():
+    def __init__(self,name):
+        self.name = name
+        self.population = 0
+        self.residents = []
+        self.neighbors = []
+        # prefrences
+        self.trade = r.randint(0,3)
+        self.genderroles = r.randint(0,2)
+        self.event = r.randint(0,2)
+        self.religion = r.randint(0,3)
+        self.authority = [r.randint(0,2),r.randint(0,3)]
+        self.caste = r.randint(0,4)
+        self.language = r.randint(0,2)
+        self.food = r.randint(0,6)
+        self.art = r.randint(0,5)
+        self.music = r.randint(0,6)
+        self.resource= r.randint(0,7)
+    def add_citizen(self,civ):
+        self.residents.append(civ)
+        self.population += 1
+    def rem_citizen(self,civ):
+        i = 0
+        while i < len(self.residents):
+            if self.residents[i].id == civ.id:
+                self.residents.pop(i)
+                break
+            i += 1
+        self.population -= 1
+    def add_neighbor(self,insert):
+        self.neighbors.append(insert)
+    def poll_residence(self):
+        cat = ["Trade","Gender Roles","Event","Religion","Authority0","Authority1","Caste","Language","Food","Art","Music","Resource"]
+        cr_slt = [self.trade,self.genderroles,self.event,self.religion,self.authority[0],self.authority[1],self.caste,self.language,self.food,self.art,self.music,self.resource]
+        votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+        for i in range(len(self.residents)):
+            votes[0][self.residents[i].trade_pref] += 1
+            votes[1][self.residents[i].genderroles_pref] += 1
+            votes[2][self.residents[i].event_pref] += 1
+            votes[3][self.residents[i].religion_pref] += 1
+            votes[4][self.residents[i].authority_pref[0]] += 1
+            votes[5][self.residents[i].authority_pref[1]] += 1
+            votes[6][self.residents[i].caste_pref] += 1
+            votes[7][self.residents[i].language_pref] += 1
+            votes[8][self.residents[i].food_pref] += 1
+            votes[9][self.residents[i].art_pref] += 1
+            votes[10][self.residents[i].music_pref] += 1
+            votes[11][self.residents[i].resource_pref] += 1
+        biggest_dif = [0,0]
+        diff = ''
+        for i in range(len(votes)):
+            for j in range(len(votes[i])):
+                if j != cr_slt[i]:
+                    if votes[i][j] > votes[i][cr_slt[i]]:
+                        t_dif = votes[i][j] - votes[i][cr_slt[i]]
+                        if t_dif > biggest_dif[1]:
+                            diff = 'changed '
+                            biggest_dif = [i,j]
+
+        """for i in range(len(votes)):
+            for j in range(len(votes[i])):
+                if votes[i][j] > most_votes:
+                    most_votes = votes[i][j]
+                    voted_to_change = [i,j]"""
+        voted_to_change = biggest_dif
+        print_string = f"{diff}Residents of {self.name} voted to change {cat[voted_to_change[0]]} from "
+        #print(f'Residents of {self.name} voted to change {cat[voted_to_change[0]]} from {self.}')
+        if diff != '':
+            match voted_to_change[0]:
+                case 0:
+                    print_string += f"{Trade[self.trade]} to {Trade[voted_to_change[1]]}"
+                    self.trade = voted_to_change[1]
+                case 1:
+                    print_string += f"{GenderRolls[self.genderroles]} to {GenderRolls[voted_to_change[1]]}"
+                    self.genderroles = voted_to_change[1]
+                case 2:
+                    print_string += f"{Events[self.event]} to {Events[voted_to_change[1]]}"
+                    self.event = voted_to_change[1]
+                case 3:
+                    print_string += f"{Religion[self.religion]} to {Religion[voted_to_change[1]]}"
+                    self.religion = voted_to_change[1]
+                case 4:
+                    print_string += f"{Authority0[self.authority[0]]} to {Authority0[voted_to_change[1]]}"
+                    self.authority[0] = voted_to_change[1]
+                case 5:
+                    print_string += f"{Authority1[self.authority[1]]} to {Authority1[voted_to_change[1]]}"
+                    self.authority[1] = voted_to_change[1]
+                case 6:
+                    print_string += f"{Caste[self.caste]} to {Caste[voted_to_change[1]]}"
+                    self.caste = voted_to_change[1]
+                case 7:
+                    print_string += f"{Language[self.language]} to {Language[voted_to_change[1]]}"
+                    self.language = voted_to_change[1]
+                case 8:
+                    print_string += f"{Food[self.food]} to {Food[voted_to_change[1]]}"
+                    self.food = voted_to_change[1]
+                case 9:
+                    print_string += f"{Art[self.art]} to {Art[voted_to_change[1]]}"
+                    self.art = voted_to_change[1]
+                case 10:
+                    print_string += f"{Music[self.music]} to {Music[voted_to_change[1]]}"
+                    self.music = voted_to_change[1]
+                case 11:
+                    print_string += f"{Resource[self.resource]} to {Resource[voted_to_change[1]]}"
+                    self.resource = voted_to_change[1]
+            print(print_string)
