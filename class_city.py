@@ -5,7 +5,8 @@ class City():
         self.name = name
         self.population = 0
         self.residents = []
-        self.neighbors = []
+        self.neighbors = [None,None,None,None]
+        self.readable_neighbors = [None,None,None,None]
         # prefrences
         self.trade = r.randint(0,3)
         self.genderroles = r.randint(0,2)
@@ -58,7 +59,7 @@ class City():
                         if t_dif > biggest_dif[1]:
                             diff = 'changed '
                             biggest_dif = [i,j]
-                            
+
         """for i in range(len(votes)):
             for j in range(len(votes[i])):
                 if votes[i][j] > most_votes:
@@ -66,7 +67,6 @@ class City():
                     voted_to_change = [i,j]"""
         voted_to_change = biggest_dif
         print_string = f"{diff}Residents of {self.name} voted to change {cat[voted_to_change[0]]} from "
-        #print(f'Residents of {self.name} voted to change {cat[voted_to_change[0]]} from {self.}')
         if diff != '':
             match voted_to_change[0]:
                 case 0:
@@ -105,4 +105,4 @@ class City():
                 case 11:
                     print_string += f"{Resource[self.resource]} to {Resource[voted_to_change[1]]}"
                     self.resource = voted_to_change[1]
-            print(print_string)
+            #print(print_string)

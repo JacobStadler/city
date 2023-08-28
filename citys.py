@@ -3,6 +3,7 @@ import graphviz as gv
 from class_city import City
 from enum_choices import *
 from class_citizen import Citizen
+from semi_spiral import ss_neighbor
 dot = gv.Digraph('Cities')
 
 # my basic idea is that each citizen has a opinion on each of these from 0-1 0 being strong dislike and 1 being strong like.
@@ -41,9 +42,87 @@ def neighbors(city):
             print(failed_n)
 
 def n_neighbors():
+    # this mess of a function is still producing bad results but I have a better solution in mind so it is staying broken
+    pos_neighbors =  []
     for i in range(total_amount_of_cities):
-        if i != 0:
-            cities[i].name
+        # [0,1,2,3]
+        pos_neighbors.append(['north','east','south','west'])
+        if i != 0 and i != 1:
+            #print(f"{i} {len(pos_neighbors)}")
+            random_city = r.randint(0,len(pos_neighbors)-1)
+            while random_city == cities[i].name and None in cities[random_city].neighbors and len(pos_neighbors[random_city]) > 1:
+                random_city = r.randint(0,len(pos_neighbors)-1)
+            random_dir = r.randint(0,len(pos_neighbors[random_city])-1)
+            match pos_neighbors[random_city][random_dir]:
+                case 'north':
+                    reverse = 'south'
+                    rev_num_dir = 1
+                    num_dir = 0
+                case 'east':
+                    reverse = 'west'
+                    rev_num_dir = 3
+                    num_dir = 1
+                case 'south':
+                    reverse = 'north'
+                    rev_num_dir = 0
+                    num_dir = 2
+                case 'west':
+                    reverse = 'east'
+                    rev_num_dir = 1
+                    num_dir = 3
+            # this is overwriting connections causing more than 4 to occur
+            cities[random_city].neighbors[num_dir] = cities[i]
+            cities[random_city].readable_neighbors[num_dir] = cities[i].name
+            cities[i].neighbors[rev_num_dir] = cities[random_city]
+            cities[i].readable_neighbors[rev_num_dir] = cities[random_city].name
+            
+            dot.edge(f'{cities[random_city].name}',f'{cities[i].name}',dir='both')
+            
+            catch_for_trblsht = pos_neighbors[random_city].pop(random_dir)
+            # this next line does not work if 0\1 selected first
+            for t in range(len(pos_neighbors[i])-1):
+                if pos_neighbors[i][t] == reverse:
+                    pos_neighbors[i].pop(t)
+
+            # {pos_neighbors[random_city]} | {pos_neighbors[i]}
+            print(f'Connecting : {cities[random_city].name} and {cities[i].name} at the {catch_for_trblsht} \ {reverse} border ')
+
+        else:
+            if i == 1:
+                random_dir = r.randint(0,len(pos_neighbors[0])-1)
+            
+                match pos_neighbors[0][random_dir]:
+                    case 'north':
+                        reverse = 'south'
+                        rev_num_dir = 1
+                        num_dir = 0
+                    case 'east':
+                        reverse = 'west'
+                        rev_num_dir = 3
+                        num_dir = 1
+                    case 'south':
+                        reverse = 'north'
+                        rev_num_dir = 0
+                        num_dir = 2
+                    case 'west':
+                        reverse = 'east'
+                        rev_num_dir = 1
+                        num_dir = 3
+                
+                cities[i].neighbors[num_dir] = cities[0]
+                cities[i].readable_neighbors[num_dir] = cities[0].name
+                cities[0].neighbors[rev_num_dir] = cities[i]
+                cities[0].readable_neighbors[rev_num_dir] = cities[i].name
+                
+                dot.edge(f'{cities[0].name}',f'{cities[i].name}',dir='both')
+                
+                pos_neighbors[0].pop(random_dir)
+                # this next line does not work if 0\1 selected first
+                for t in range(len(pos_neighbors[1])-1):
+                    if pos_neighbors[1][t] == reverse:
+                        pos_neighbors[1].pop(t)
+
+                print(pos_neighbors)
 
 total_amount_of_people = 500*total_amount_of_cities
 ppl = []
@@ -85,8 +164,8 @@ for i in range(total_amount_of_cities):
     dot.node(f'{i}',shape="square",label=f'{city_info(cities[i])}')
     #city_info(cities[i])
 
-for i in range(total_amount_of_cities):
-    neighbors(cities[i])
+#for i in range(total_amount_of_cities):
+#    neighbors(cities[i])
 
 n_neighbors()
 
@@ -103,12 +182,17 @@ while moves != 0:
         civ_like_score.append(pers.like(pers.occupy))
         highest_like = 0
         civ_city_n = len(civ_city.neighbors)
+        #print(civ_city_n,civ_like_score)
         i = 0
         while i < civ_city_n:
-            civ_like_store.append(civ_city.neighbors[i])
-            civ_like_score.append(pers.like(civ_city.neighbors[i]))
-            if civ_like_score[i] > civ_like_score[highest_like]:
-                highest_like = i
+            if civ_city.neighbors[i] != None:
+                civ_like_store.append(civ_city.neighbors[i])
+                civ_like_score.append(pers.like(civ_city.neighbors[i]))
+                if civ_like_score[i] > civ_like_score[highest_like]:
+                    highest_like = i
+            else:
+                civ_like_store.append(None)
+                civ_like_score.append(0)
             i += 1
         if highest_like != 0:
             moves += 1
@@ -121,4 +205,6 @@ while moves != 0:
     for i in range(total_amount_of_cities):
         cities[i].poll_residence()
 
+for i in range(total_amount_of_cities):
+        print(f'{i} : {cities[i].readable_neighbors}')
 dot.render(view=True)
