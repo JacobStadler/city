@@ -28,13 +28,13 @@ def neighbors(count_cities):
             if i == 1:
                 random_city = 0
                 random_dir = ra(0,3)
-            else:
+            elif i > 1:
                 while True:
                     random_city = ra(0,len(edges)-1)
                     random_dir = ra(0,len(edges[random_city])-1)
                     if random_city != i and cities[random_city].neighbors[random_dir] == None:
                         break
-
+            
             match edges[random_city][random_dir]:
                 case 0:
                     reverse = 2
@@ -95,6 +95,7 @@ for i in range(total_amount_of_cities):
     #city_info(cities[i])
 
 neighbors(total_amount_of_cities)
+#neighbors(total_amount_of_cities)
 
 moves = 1
 while moves != 0:
