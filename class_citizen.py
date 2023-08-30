@@ -24,6 +24,8 @@ class Citizen():
     def move(self):
         self.like_current = self.like(self.occupy)
     def like(self,city):
+        # still need to make thier likes more variable which will help with the current dislike problems I think
+        # each civ should have a like/dislike % for each thing instead of a yes no one just one this should be easy using a list
         total = 11
         metch = 0
         if self.trade_pref == city.trade:
