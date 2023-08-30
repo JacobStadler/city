@@ -50,3 +50,7 @@ class Citizen():
             metch += 1
         #print(f"metch: {metch}/{total} {self.id} {round(metch/total,2)*100}")
         return round(metch/total,2)*100
+    def vacation(self):
+        neighbors = self.occupy.neighbors
+        vacation_areas = [neighbors[0]]
+        self.like(vacation_areas[0][0])
