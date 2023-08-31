@@ -4,6 +4,7 @@ import graphviz as gv
 from class_city import City
 from enum_choices import *
 from class_citizen import Citizen
+from city_map import Map
 dot = gv.Digraph('Cities')
 
 # my basic idea is that each citizen has a opinion on each of these from 0-1 0 being strong dislike and 1 being strong like.
@@ -31,9 +32,11 @@ def neighbors(count_cities):
             elif i > 1:
                 while True:
                     random_city = ra(0,len(edges)-1)
-                    random_dir = ra(0,len(edges[random_city])-1)
-                    if random_city != i and cities[random_city].neighbors[random_dir] == None:
-                        break
+                    print(cities[random_city].readable_neighbors)
+                    if len(edges[random_city]) > 0:
+                        random_dir = ra(0,len(edges[random_city])-1)
+                        if random_city != i and cities[random_city].neighbors[random_dir] == None:
+                            break
             
             match edges[random_city][random_dir]:
                 case 0:
@@ -135,4 +138,10 @@ while moves != 0:
 
 for i in range(total_amount_of_cities):
         print(f'{i} : {cities[i].readable_neighbors}')
+
+r_map = Map()
+r_map.noise_map()
+r_map.make_map(50)
+r_map.display()
+
 dot.render(view=True)
