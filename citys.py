@@ -16,10 +16,6 @@ cities = []
 for i in range(total_amount_of_cities):
     cities.append(City(i))
 
-city_neighbors = 10
-global failed_n
-failed_n = 0
-
 def neighbors(count_cities):
     edges = []
     for i in range(count_cities):
@@ -68,30 +64,6 @@ while num_of_ppl < total_amount_of_people:
     cities[city].add_citizen(ppl[num_of_ppl])
     ppl[num_of_ppl].occupy = cities[city]
     num_of_ppl += 1
-
-def city_info(c):
-    i = 0
-    total_aproval = 0
-    while i < len(c.residents):
-        total_aproval += c.residents[i].like(c)
-        i += 1
-    string = f'''
-    City :          {c.name}\l
-    Avg Approval :  {round(total_aproval/len(c.residents),2)}\l
-    Pop:            {c.population}\l
-    Auth:           {Authority0[c.authority[0]]} {Authority1[c.authority[1]]}\l
-    Trade:          {Trade[c.trade]}\l
-    Gender Roles:   {GenderRolls[c.genderroles]}\l
-    Events :        {Events[c.event]}\l
-    Religion :      {Religion[c.religion]}\l
-    Caste :         {Caste[c.caste]}\l
-    Language :      {Language[c.language]}\l
-    Food :          {Food[c.food]}\l
-    Art:            {Art[c.art]}\l
-    Music :         {Music[c.music]}\l
-    Resource :      {Resource[c.resource]}\l
-    '''
-    return string
 
 for i in range(total_amount_of_cities):
     dot.node(f'{i}',shape="square",label=f'{city_info(cities[i])}')

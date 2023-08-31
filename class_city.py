@@ -5,9 +5,24 @@ class City():
         self.name = name
         self.population = 0
         self.residents = []
+        self.nond_n = [] # non directinal neighbors for testing
         self.neighbors = [None,None,None,None]
         self.readable_neighbors = [None,None,None,None]
+        self.founder = None
         # prefrences
+        self.pref = []
+        #self.trade = None
+        #self.genderroles = None
+        #self.event = None
+        #self.religion = None
+        #self.authority = None
+        #self.caste = None
+        #self.language = None
+        #self.food = None
+        #self.art = None
+        #self.music = None
+        #self.resource= None
+    def random_pref(self):
         self.trade = r.randint(0,3)
         self.genderroles = r.randint(0,2)
         self.event = r.randint(0,2)
@@ -32,6 +47,17 @@ class City():
         self.population -= 1
     def add_neighbor(self,insert):
         self.neighbors.append(insert)
+
+    def initiate_pref(self):
+        votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0]]
+        most_votes = [0,0,0,0,0,0,0,0,0,0]
+        for i in range(len(self.residents)):
+            for j in range(len(votes)):
+                for k in range(len(votes[j])):
+                    votes[j][k] += self.residents[i].pref[j][k]
+                if votes[j][k] > votes[j][most_votes[j]]:
+                    most_votes[j] = k
+
     def poll_residence(self):
         cat = ["Trade","Gender Roles","Event","Religion","Authority0","Authority1","Caste","Language","Food","Art","Music","Resource"]
         cr_slt = [self.trade,self.genderroles,self.event,self.religion,self.authority[0],self.authority[1],self.caste,self.language,self.food,self.art,self.music,self.resource]
@@ -106,3 +132,26 @@ class City():
                     print_string += f"{Resource[self.resource]} to {Resource[voted_to_change[1]]}"
                     self.resource = voted_to_change[1]
             #print(print_string)
+    def city_info(self):
+        i = 0
+        total_aproval = 0
+        while i < len(self.residents):
+            total_aproval += self.residents[i].like(self)
+            i += 1
+        string = f'''
+        City :          {self.name}\l
+        Avg Approval :  {round(total_aproval/len(self.residents),2)}\l
+        Pop:            {self.population}\l
+        Auth:           {Authority0[self.authority[0]]} {Authority1[self.authority[1]]}\l
+        Trade:          {Trade[self.trade]}\l
+        Gender Roles:   {GenderRolls[self.genderroles]}\l
+        Events :        {Events[self.event]}\l
+        Religion :      {Religion[self.religion]}\l
+        Caste :         {Caste[self.caste]}\l
+        Language :      {Language[self.language]}\l
+        Food :          {Food[self.food]}\l
+        Art:            {Art[self.art]}\l
+        Music :         {Music[self.music]}\l
+        Resource :      {Resource[self.resource]}\l
+        '''
+        return string
