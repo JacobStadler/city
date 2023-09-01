@@ -22,12 +22,15 @@ founder = ra(0,initial_civs-1)
 cities[0].founder = civs[founder]
 cities[0].initiate_pref()
 
+cities_f = 1
 mdays = 365
-myears = 4000
+myears = 1000
 days = 0
 years = 0
 dead = True
-while dead:
+while dead and years <= myears:
+    test_pause = False
+    city_founded = False
     message = ''
     total_died = 0
     for j in range(len(civs)):
@@ -36,10 +39,25 @@ while dead:
             if civs[j].like(hold) <= 20:
                 civs[j].found_city(cities)
                 message += f'{civs[j].id} founded a city! {civs[j].occupy.name} || prev = {hold.name} like prev = {civs[j].like(hold)}\n'
+                city_founded = True
             if civs[j].age(mdays,years,days) == False:
                 message += f'{civs[j].id} died at {civs[j].age_years}\n'
                 dead += 1
                 total_died += 1
+            
+            if civs[j].is_preg[0] == True:
+                civs[j].try_for_kid(civs,civs[j].is_preg[1])
+                if civs[j].had_kid:
+                    message += f'{civs[j].id} and {civs[j].is_preg[1].id} had a bby and named it {civs[j].children[len(civs[j].children)-1].id} after being preg for {civs[j].preg_for} days\n'
+                    test_pause = True
+                    civs[j].preg_for = 0
+                    civs[j].had_kid = False
+                    civs[j].is_preg[1].is_banned = False
+                    civs[j].is_preg = [False,None]
+                else:
+                    message += f'{civs[j].id} is preg with {civs[j].is_preg[1].id}s bby for {civs[j].preg_for}\n' 
+            elif civs[j].is_banned == False:
+                civs[j].find_partner(civs)
         else:
             dead += 1
             total_died += 1
@@ -48,7 +66,10 @@ while dead:
 
     if message != '':
         print(message)
-        time.sleep(.5)
+        if test_pause:
+            time.sleep(10)
+        if city_founded:
+            cities_f += 1
     
     print(f'Year: {years} Day: {days} Died: {total_died}')
     if days == mdays:
@@ -58,3 +79,6 @@ while dead:
         years += 1
     days += 1
     
+print(f'''Stats\n
+    Civs :{len(civs)}
+    Cities Founded : {cities_f}''')

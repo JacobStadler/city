@@ -1,6 +1,7 @@
 from random import randint as r
 from random import random as f
 from class_city import City
+import time
 class Citizen():
     def __init__(self,id):
         self.id = id
@@ -17,10 +18,13 @@ class Citizen():
             self.can_have_babies = False
         self.known_languages = r(1,3)
         self.parents = []
-        self.gestation_days = 1
+        self.children = []
+        self.gestation_days = 365
         self.preg_for = 0
         self.is_preg = [False,None]
+        self.is_banned = False
         self.alive = True
+        self.had_kid = False
         self.year_day_died = [0,0]
         # prefrences
         # trade, gender roles, event, religion, authority, caste, language, food, art, music
@@ -112,30 +116,41 @@ class Citizen():
 
     def try_for_kid(self,civs,partner):
         if self.is_preg[0] == False:
-            if f*10 > 7:
+            if f()*10 > 7:
                 if self.can_have_babies:
                     self.is_preg = [True,partner]
+                    partner.is_banned = True
+                    
         else:
-            self.preg_for += 1
             if self.preg_for >= self.gestation_days:
-                if f*10 > 6 or self.gestation_days >= 100:
+                if f()*10 > 6 or self.gestation_days >= 400:
+                    self.had_kid = True
                     bb_id = len(civs)
                     civs.append(Citizen(bb_id))
+                    self.children.append(civs[bb_id])
+                    self.is_preg[1].children.append(civs[bb_id])
                     civs[bb_id].parents = [self,self.is_preg[1]]
                     civs[bb_id].occupy = self.occupy
-                    civs[bb_id].occupy.add_citizen[civs[bb_id]]
+                    civs[bb_id].occupy.add_citizen(civs[bb_id])
+            self.preg_for += 1
+
 
     def find_partner(self,civs):
-        avalable = self.occupy.residents
-        choices = []
-        for i in range(avalable):
-            if avalable[i].gender != self.gender:
-                choices.append(avalable[i])
-        choice = r(0,len(choices)-1)
-        if self.can_have_babies:
-            self.try_for_kid(civs,avalable[choice])
-        else:
-            avalable[choice].try_for_kids(civs,self)
+        if self.is_preg[0] == False and self.is_banned == False:
+            avalable = self.occupy.residents
+            choices = []
+            for i in range(len(avalable)):
+                #print(f'{i} | av : id {avalable[i].id} gen {avalable[i].gender} sf : id {self.id} gen {self.gender} | {avalable[i].is_preg[0]}')
+                if avalable[i].gender != self.gender and avalable[i].is_preg[0] == False:
+                    choices.append(avalable[i])
+                    #print('added')
+                    #time.sleep(1)
+            if choices:
+                choice = r(0,len(choices)-1)
+                if self.can_have_babies:
+                    self.try_for_kid(civs,avalable[choice])
+                else:
+                    avalable[choice].try_for_kid(civs,self)
 
     def age(self,days,y,d):
         ten_d = 0
