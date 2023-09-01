@@ -13,20 +13,22 @@ class Citizen():
         self.gender = r(0,1)
         if self.gender == 1:
             self.can_have_babies = True
+        else:
+            self.can_have_babies = False
         self.known_languages = r(1,3)
         self.parents = []
-        self.gestation_days = 90
+        self.gestation_days = 1
         self.preg_for = 0
         self.is_preg = [False,None]
         self.alive = True
+        self.year_day_died = [0,0]
         # prefrences
         # trade, gender roles, event, religion, authority, caste, language, food, art, music
         #   votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0]]
-        self.pref = [[f,f,f,f],[f,f,f],[f,f,f],[f,f,f,f],[f,f,f],[f,f,f,f],[f,f,f,f,f],[f,f,f],[f,f,f,f,f,f,f],[f,f,f,f,f,f],[f,f,f,f,f,f,f]]
+        self.pref = [[f(),f(),f(),f()],[f(),f(),f()],[f(),f(),f()],[f(),f(),f(),f()],[f(),f(),f()],[f(),f(),f(),f()],[f(),f(),f(),f(),f()],[f(),f(),f()],[f(),f(),f(),f(),f(),f(),f()],[f(),f(),f(),f(),f(),f()],[f(),f(),f(),f(),f(),f(),f()]]
         # I cannot figure out how to do this  with logic so
         # for now I am leaving it logic-less because anything else sounds like an even worse headache
         # TODO: re add resouce prefrence in some manner
-        # resource
         
         #self.trade_pref = r(0,3)
         #self.genderroles_pref = r(0,2)
@@ -72,37 +74,44 @@ class Citizen():
             metch += 1
         #print(f"metch: {metch}/{total} {self.id} {round(metch/total,2)*100}")
         return round(metch/total,2)*100
+    
     def like(self,city):
         max = 11
         like_num = 0
-        like_num += self.pref[0][city.trade]
-        like_num += self.pref[1][city.genderroles]
-        like_num += self.pref[2][city.event]
-        like_num += self.pref[3][city.religion]
-        like_num += self.pref[4][city.authority]
-        like_num += self.pref[5][city.caste]
-        like_num += self.pref[6][city.language]
-        like_num += self.pref[7][city.food]
-        like_num += self.pref[8][city.art]
-        like_num += self.pref[9][city.music]
-        like_num += self.pref[10][city.resource]
+        for i in range(len(city.pref)):
+            like_num += self.pref[i][city.pref[i]]
+            
+        #like_num += self.pref[0][city.pref[0]]
+        #like_num += self.pref[1][city.pref[1]]
+        #like_num += self.pref[2][city.pref[2]]
+        #like_num += self.pref[3][city.pref[3]]
+        #like_num += self.pref[4][city.pref[4]]
+        #like_num += self.pref[5][city.pref[5]]
+        #like_num += self.pref[6][city.pref[6]]
+        #like_num += self.pref[7][city.pref[7]]
+        #like_num += self.pref[8][city.pref[8]]
+        #like_num += self.pref[9][city.pref[9]]
         return round(like_num/max,2)*100
+    
     def vacation(self):
         neighbors = self.occupy.neighbors
         vacation_areas = [neighbors[0]]
         self.like(vacation_areas[0][0])
+
     def found_city(self,cities):
+        #TODO: add it as a node on the map need some way to determine how far they will travel
         came_from = self.occupy
-        city_id = len(cities)-1
+        city_id = len(cities)
         cities.append(City(city_id))
-        came_from.nond_n += cities[city_id]
+        came_from.nond_n.append(cities[city_id])
         self.occupy = cities[city_id]
-        cities[city_id].nond_n += came_from
+        cities[city_id].nond_n.append(came_from)
         cities[city_id].add_citizen(self)
         cities[city_id].founder = self
         cities[city_id].initiate_pref()
+
     def try_for_kid(self,civs,partner):
-        if not self.is_preg[0]:
+        if self.is_preg[0] == False:
             if f*10 > 7:
                 if self.can_have_babies:
                     self.is_preg = [True,partner]
@@ -112,20 +121,39 @@ class Citizen():
                 if f*10 > 6 or self.gestation_days >= 100:
                     bb_id = len(civs)
                     civs.append(Citizen(bb_id))
-                    civs[bb_id].parents.append(self,self.is_preg[1])
+                    civs[bb_id].parents = [self,self.is_preg[1]]
                     civs[bb_id].occupy = self.occupy
                     civs[bb_id].occupy.add_citizen[civs[bb_id]]
 
-    def age(self,days):
+    def find_partner(self,civs):
+        avalable = self.occupy.residents
+        choices = []
+        for i in range(avalable):
+            if avalable[i].gender != self.gender:
+                choices.append(avalable[i])
+        choice = r(0,len(choices)-1)
+        if self.can_have_babies:
+            self.try_for_kid(civs,avalable[choice])
+        else:
+            avalable[choice].try_for_kids(civs,self)
+
+    def age(self,days,y,d):
+        ten_d = 0
+        i = 0
+        while i < self.age_years:
+            chance = r(0,500000)
+            if chance == 500000:
+                ten_d += 1
+            i += 1
+
+        if ten_d >= 1:
+            if not self.is_preg[0]:
+                self.alive = False
+                self.year_day_died = [y,d]
+                return False
+            
         self.age_days += 1
         if self.age_days > days:
             self.age_years += 1
             self.age_days = 0
-        die = r(0,100)
-        if die < self.age_years:
-            die = r(0,100)
-            if die < self.age_years:
-                # temporary stop to prevent bugs
-                if not self.is_preg:
-                    self.alive = False
             

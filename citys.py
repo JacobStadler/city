@@ -66,7 +66,7 @@ while num_of_ppl < total_amount_of_people:
     num_of_ppl += 1
 
 for i in range(total_amount_of_cities):
-    dot.node(f'{i}',shape="square",label=f'{city_info(cities[i])}')
+    dot.node(f'{i}',shape="square",label=f'{cities[i].city_info()}')
     #city_info(cities[i])
 
 neighbors(total_amount_of_cities)

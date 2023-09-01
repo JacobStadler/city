@@ -49,14 +49,17 @@ class City():
         self.neighbors.append(insert)
 
     def initiate_pref(self):
-        votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0]]
+        votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0]]
         most_votes = [0,0,0,0,0,0,0,0,0,0]
+        #print(f'{len(votes)} {len(most_votes)}')
         for i in range(len(self.residents)):
             for j in range(len(votes)):
                 for k in range(len(votes[j])):
+                    #print(self.residents[i].pref[j][k])
                     votes[j][k] += self.residents[i].pref[j][k]
                 if votes[j][k] > votes[j][most_votes[j]]:
                     most_votes[j] = k
+        self.pref = most_votes
 
     def poll_residence(self):
         cat = ["Trade","Gender Roles","Event","Religion","Authority0","Authority1","Caste","Language","Food","Art","Music","Resource"]
