@@ -9,6 +9,9 @@ class City():
         self.neighbors = [None,None,None,None]
         self.readable_neighbors = [None,None,None,None]
         self.founder = None
+        self.boys = []
+        self.girls = []
+        self.preg_res = []
         # prefrences
         self.pref = []
         #self.trade = None
