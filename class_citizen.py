@@ -34,17 +34,6 @@ class Citizen():
         # for now I am leaving it logic-less because anything else sounds like an even worse headache
         # TODO: re add resouce prefrence in some manner
         
-        #self.trade_pref = r(0,3)
-        #self.genderroles_pref = r(0,2)
-        #self.event_pref = r(0,2)
-        #self.religion_pref = r(0,3)
-        #self.authority_pref = [r(0,2),r(0,3)]
-        #self.caste_pref = r(0,4)
-        #self.language_pref = r(0,2)
-        #self.food_pref = r(0,6)
-        #self.art_pref = r(0,5)
-        #self.music_pref = r(0,6)
-        #self.resource_pref = r(0,7)
     def add_occupance(self,city):
         self.occupy = city
     def move(self):
@@ -151,6 +140,33 @@ class Citizen():
                     self.try_for_kid(civs,avalable[choice])
                 else:
                     avalable[choice].try_for_kid(civs,self)
+    
+    def children(self,civs):
+        if self.is_preg[0] == False and self.is_banned == False:
+            if f()*10 > 7:
+                if self.gender == 1:
+                    available = self.occupy.boys
+                else:
+                    available = self.occupy.girls
+
+                choice = r(0,len(available)-1)
+                if self.can_have_babies:
+                    self.is_preg = [True,choice]
+                    choice.is_banned = True
+                else:
+                    self.is_banned = True
+                    choice.is_preg = [True,self]
+        elif self.is_preg[0] == True:
+            if self.preg_for >= self.gestation_days:
+                if f()*10 > 6 or self.gestation_days+50:
+                    bb_id = len(civs)
+                    civs.appends(Citizen(bb_id))
+                    self.children.append(civs[bb_id])
+                    self.is_preg[1].children.appned(civs[bb_id])
+                    civs[bb_id].parents = [self,self.is_preg[1]]
+                    civs[bb_id].occupy = self.occupy
+                    civs[bb_id].occupy.add_citizen(civs[bb_id])
+            self.preg_for += 1
 
     def age(self,days,y,d):
         ten_d = 0
@@ -171,4 +187,3 @@ class Citizen():
         if self.age_days > days:
             self.age_years += 1
             self.age_days = 0
-            
