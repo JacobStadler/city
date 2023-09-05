@@ -26,6 +26,7 @@ class Citizen():
         self.alive = True
         self.had_kid = False
         self.year_day_died = [0,0]
+        self.like_current = 0
         # prefrences
         # trade, gender roles, event, religion, authority, caste, language, food, art, music
         #   votes = [[0,0,0,0],[0,0,0],[0,0,0],[0,0,0,0],[0,0,0],[0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0]]
@@ -33,68 +34,21 @@ class Citizen():
         # I cannot figure out how to do this  with logic so
         # for now I am leaving it logic-less because anything else sounds like an even worse headache
         # TODO: re add resouce prefrence in some manner
-        
-        #self.trade_pref = r(0,3)
-        #self.genderroles_pref = r(0,2)
-        #self.event_pref = r(0,2)
-        #self.religion_pref = r(0,3)
-        #self.authority_pref = [r(0,2),r(0,3)]
-        #self.caste_pref = r(0,4)
-        #self.language_pref = r(0,2)
-        #self.food_pref = r(0,6)
-        #self.art_pref = r(0,5)
-        #self.music_pref = r(0,6)
-        #self.resource_pref = r(0,7)
+
     def add_occupance(self,city):
         self.occupy = city
-    def move(self):
-        self.like_current = self.like(self.occupy)
-    def old_like(self,city):
-        # still need to make thier likes more variable which will help with the current dislike problems I think
-        # each civ should have a like/dislike % for each thing instead of a yes no one just one this should be easy using a list
-        total = 11
-        metch = 0
-        if self.trade_pref == city.trade:
-            metch += 1
-        if self.genderroles_pref == city.genderroles:
-            metch += 1
-        if self.event_pref == city.event:
-            metch += 1
-        if self.religion_pref == city.religion:
-            metch += 1
-        if self.authority_pref == city.authority:
-            metch += 1
-        if self.caste_pref == city.caste:
-            metch += 1
-        if self.language_pref == city.language:
-            metch += 1
-        if self.food_pref == city.food:
-            metch += 1
-        if self.art_pref == city.art:
-            metch += 1
-        if self.music_pref == city.music:
-            metch += 1
-        if self.resource_pref == city.resource:
-            metch += 1
-        #print(f"metch: {metch}/{total} {self.id} {round(metch/total,2)*100}")
-        return round(metch/total,2)*100
+
+    def consider_move(self,city):
+        if self.like_current < self.like(city):
+            self.occupy = city
+            self.like_current = self.like(city)
+
     
     def like(self,city):
         max = 11
         like_num = 0
         for i in range(len(city.pref)):
             like_num += self.pref[i][city.pref[i]]
-            
-        #like_num += self.pref[0][city.pref[0]]
-        #like_num += self.pref[1][city.pref[1]]
-        #like_num += self.pref[2][city.pref[2]]
-        #like_num += self.pref[3][city.pref[3]]
-        #like_num += self.pref[4][city.pref[4]]
-        #like_num += self.pref[5][city.pref[5]]
-        #like_num += self.pref[6][city.pref[6]]
-        #like_num += self.pref[7][city.pref[7]]
-        #like_num += self.pref[8][city.pref[8]]
-        #like_num += self.pref[9][city.pref[9]]
         return round(like_num/max,2)*100
     
     def vacation(self):
@@ -109,6 +63,7 @@ class Citizen():
         cities.append(City(city_id))
         came_from.nond_n.append(cities[city_id])
         self.occupy = cities[city_id]
+        self.like_current = self.like(self.occupy)
         cities[city_id].nond_n.append(came_from)
         cities[city_id].add_citizen(self)
         cities[city_id].founder = self
