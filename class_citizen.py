@@ -39,6 +39,8 @@ class Citizen():
         self.occupy = city
 
     def consider_move(self,city):
+        options = self.occupy.nond_n
+        
         if self.like_current < self.like(city):
             self.occupy = city
             self.like_current = self.like(city)

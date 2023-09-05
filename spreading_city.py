@@ -41,8 +41,10 @@ while dead and years <= myears:
                 message += f'{civs[j].id} founded a city! {civs[j].occupy.name} || prev = {hold.name} like prev = {civs[j].like(hold)}\n'
                 city_founded = True
             if civs[j].like(hold) <= 40 and civs[j].like(hold) > 20:
-                civs[j].like_current = civs[j].like(hold)
-                civs[j].consider_move()
+                if len(hold.nond_n) != 0:
+                    for n in range(hold.nond_n):
+                        civs[j].like_current = civs[j].like(hold)
+                        civs[j].consider_move()
             if civs[j].age(mdays,years,days) == False:
                 message += f'{civs[j].id} died at {civs[j].age_years}\n'
                 dead += 1
