@@ -42,7 +42,7 @@ while dead and years <= myears:
                 city_founded = True
             if civs[j].like(hold) <= 40 and civs[j].like(hold) > 20:
                 if len(hold.nond_n) != 0:
-                    for n in range(hold.nond_n):
+                    for n in range(len(hold.nond_n)):
                         civs[j].like_current = civs[j].like(hold)
                         civs[j].consider_move()
             if civs[j].age(mdays,years,days) == False:
