@@ -44,7 +44,6 @@ class Citizen():
         if self.like_current < self.like(city):
             self.occupy = city
             self.like_current = self.like(city)
-
     
     def like(self,city):
         max = 11
@@ -71,77 +70,41 @@ class Citizen():
         cities[city_id].founder = self
         cities[city_id].initiate_pref()
 
-    def children(self,civs):
+    def have_children(self,civs,id):
         if self.is_preg[0] == False and self.is_banned == False:
             if f()*10 > 7:
                 if self.gender == 1:
                     available = self.occupy.boys
                 else:
                     available = self.occupy.girls
-
-                choice = r(0,len(available)-1)
+                #print(available)
+                choice = available[r(0,len(available)-1)]
                 if self.can_have_babies:
+                    self.occupy.girls.pop() # pop from girls list since preg
                     self.is_preg = [True,choice]
                     choice.is_banned = True
                 else:
+                    self.occupy.boys.pop() # pop from boys since got preg
                     self.is_banned = True
                     choice.is_preg = [True,self]
         elif self.is_preg[0] == True:
             if self.preg_for >= self.gestation_days:
                 if f()*10 > 6 or self.gestation_days+50:
-                    bb_id = len(civs)
-                    civs.appends(Citizen(bb_id))
+                    bb_id = id+1
+                    civs.append(Citizen(bb_id))
+                    bb_id = len(civs)-1
+                    self.had_kid = True
                     self.children.append(civs[bb_id])
-                    self.is_preg[1].children.appned(civs[bb_id])
+                    self.is_preg[1].children.append(civs[bb_id])
                     civs[bb_id].parents = [self,self.is_preg[1]]
                     civs[bb_id].occupy = self.occupy
+                    if civs[bb_id].gender == 0:
+                        civs[bb_id].occupy.boys.append(civs[bb_id])
+                    else:
+                        civs[bb_id].occupy.girls.append(civs[bb_id])
                     civs[bb_id].occupy.add_citizen(civs[bb_id])
-            self.preg_for += 1
-
-
-    def find_partner(self,civs):
-        if self.is_preg[0] == False and self.is_banned == False:
-            avalable = self.occupy.residents
-            choices = []
-            for i in range(len(avalable)):
-                #print(f'{i} | av : id {avalable[i].id} gen {avalable[i].gender} sf : id {self.id} gen {self.gender} | {avalable[i].is_preg[0]}')
-                if avalable[i].gender != self.gender and avalable[i].is_preg[0] == False:
-                    choices.append(avalable[i])
-                    #print('added')
-                    #time.sleep(1)
-            if choices:
-                choice = r(0,len(choices)-1)
-                if self.can_have_babies:
-                    self.try_for_kid(civs,avalable[choice])
-                else:
-                    avalable[choice].try_for_kid(civs,self)
-    
-    def children(self,civs):
-        if self.is_preg[0] == False and self.is_banned == False:
-            if f()*10 > 7:
-                if self.gender == 1:
-                    available = self.occupy.boys
-                else:
-                    available = self.occupy.girls
-
-                choice = r(0,len(available)-1)
-                if self.can_have_babies:
-                    self.is_preg = [True,choice]
-                    choice.is_banned = True
-                else:
-                    self.is_banned = True
-                    choice.is_preg = [True,self]
-        elif self.is_preg[0] == True:
-            if self.preg_for >= self.gestation_days:
-                if f()*10 > 6 or self.gestation_days+50:
-                    bb_id = len(civs)
-                    civs.appends(Citizen(bb_id))
-                    self.children.append(civs[bb_id])
-                    self.is_preg[1].children.appned(civs[bb_id])
-                    civs[bb_id].parents = [self,self.is_preg[1]]
-                    civs[bb_id].occupy = self.occupy
-                    civs[bb_id].occupy.add_citizen(civs[bb_id])
-            self.preg_for += 1
+            else:
+                self.preg_for += 1
             
     def age(self,days,y,d):
         ten_d = 0
@@ -156,9 +119,8 @@ class Citizen():
             if not self.is_preg[0]:
                 self.alive = False
                 self.year_day_died = [y,d]
-                return False
-            
-        self.age_days += 1
-        if self.age_days > days:
-            self.age_years += 1
-            self.age_days = 0
+        else:
+            self.age_days += 1
+            if self.age_days > days:
+                self.age_years += 1
+                self.age_days = 0

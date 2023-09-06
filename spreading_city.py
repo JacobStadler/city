@@ -13,11 +13,18 @@ cities.append(City(0))
 
 initial_civs = 20
 civs = []
+dead_civs = []
+number_of_civs = 0
 for i in range(initial_civs):
     civs.append(Citizen(i))
     civs[i].parents.append([None])
     civs[i].occupy = cities[0]
     cities[0].add_citizen(civs[i])
+    if civs[i].gender == 0:
+        cities[0].boys.append(civs[i])
+    else:
+        cities[0].girls.append(civs[i])
+    number_of_civs += 1
 founder = ra(0,initial_civs-1)
 cities[0].founder = civs[founder]
 cities[0].initiate_pref()
@@ -34,39 +41,39 @@ while dead and years <= myears:
     message = ''
     total_died = 0
     for j in range(len(civs)):
-        if civs[j].alive:
-            hold = civs[j].occupy
-            if civs[j].like(hold) <= 20:
-                civs[j].found_city(cities)
-                message += f'{civs[j].id} founded a city! {civs[j].occupy.name} || prev = {hold.name} like prev = {civs[j].like(hold)}\n'
-                city_founded = True
-            if civs[j].like(hold) <= 40 and civs[j].like(hold) > 20:
-                if len(hold.nond_n) != 0:
-                    for n in range(len(hold.nond_n)):
-                        civs[j].like_current = civs[j].like(hold)
-                        civs[j].consider_move()
-            if civs[j].age(mdays,years,days) == False:
-                message += f'{civs[j].id} died at {civs[j].age_years}\n'
-                dead += 1
-                total_died += 1
-            
-            if civs[j].is_preg[0] == True:
-                civs[j].try_for_kid(civs,civs[j].is_preg[1])
-                if civs[j].had_kid:
-                    message += f'{civs[j].id} and {civs[j].is_preg[1].id} had a bby and named it {civs[j].children[len(civs[j].children)-1].id} after being preg for {civs[j].preg_for} days\n'
-                    test_pause = True
-                    civs[j].preg_for = 0
-                    civs[j].had_kid = False
-                    civs[j].is_preg[1].is_banned = False
-                    civs[j].is_preg = [False,None]
-                else:
-                    message += f'{civs[j].id} is preg with {civs[j].is_preg[1].id}s bby for {civs[j].preg_for}\n' 
-            elif civs[j].is_banned == False:
-                civs[j].find_partner(civs)
-        else:
+        p = civs[j] # person
+        p.age(mdays,years,days)
+        if p.alive == False:
+            message += f'{p.id} died at {p.age_years}\n'
+            dead_civs.append(p)
+            civs[j].pop(j)
             dead += 1
             total_died += 1
-    if total_died >= len(civs):
+        else:
+            hold = p.occupy
+            if p.like(hold) <= 20:
+                p.found_city(cities)
+                message += f'{p.id} founded a city! {p.occupy.name} || prev = {hold.name} like prev = {p.like(hold)}\n'
+                city_founded = True
+            if p.like(hold) <= 40 and p.like(hold) > 20:
+                if len(hold.nond_n) != 0:
+                    for n in range(len(hold.nond_n)):
+                        p.like_current = p.like(hold)
+                        p.consider_move()
+            
+            p.have_children(civs,number_of_civs)
+            if p.had_kid:
+                number_of_civs += 1
+                message += f'{p.id} and {p.is_preg[1].id} had a bby and named it {p.children[len(p.children)-1].id} after being preg for {p.preg_for} days\n'
+                test_pause = True
+                p.preg_for = 0
+                p.had_kid = False
+                p.is_preg[1].is_banned = False
+                p.is_preg = [False,None]
+            if p.is_preg[0] == True:
+                message += f'{p.id} is preg with {p.is_preg[1].id}s bby for {p.preg_for}\n' 
+
+    if total_died >= len(civs)+len(dead_civs):
         dead = False
 
     if message != '':
