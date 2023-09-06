@@ -78,15 +78,16 @@ class Citizen():
                 else:
                     available = self.occupy.girls
                 #print(available)
-                choice = available[r(0,len(available)-1)]
-                if self.can_have_babies:
-                    self.occupy.girls.pop() # pop from girls list since preg
-                    self.is_preg = [True,choice]
-                    choice.is_banned = True
-                else:
-                    self.occupy.boys.pop() # pop from boys since got preg
-                    self.is_banned = True
-                    choice.is_preg = [True,self]
+                if len(available) > 0:
+                    choice = available[r(0,len(available)-1)]
+                    if self.can_have_babies:
+                        #self.occupy.girls.pop() # pop from girls list since preg
+                        self.is_preg = [True,choice]
+                        choice.is_banned = True
+                    else:
+                        #self.occupy.boys.pop() # pop from boys since got preg
+                        self.is_banned = True
+                        choice.is_preg = [True,self]
         elif self.is_preg[0] == True:
             if self.preg_for >= self.gestation_days:
                 if f()*10 > 6 or self.gestation_days+50:

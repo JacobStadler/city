@@ -35,18 +35,23 @@ myears = 1000
 days = 0
 years = 0
 dead = True
+total_died = 0
+
 while dead and years <= myears:
     test_pause = False
     city_founded = False
     message = ''
-    total_died = 0
-    for j in range(len(civs)):
+    civs_len = len(civs)
+    j = 0
+    while j < civs_len:
         p = civs[j] # person
         p.age(mdays,years,days)
         if p.alive == False:
-            message += f'{p.id} died at {p.age_years}\n'
+            message += f'           {p.id} died at {p.age_years}\n'
             dead_civs.append(p)
-            civs[j].pop(j)
+            civs.pop(j)
+            # after pop is still broken
+            j += 1
             dead += 1
             total_died += 1
         else:
@@ -59,7 +64,7 @@ while dead and years <= myears:
                 if len(hold.nond_n) != 0:
                     for n in range(len(hold.nond_n)):
                         p.like_current = p.like(hold)
-                        p.consider_move()
+                        p.consider_move(hold.nond_n[n])
             
             p.have_children(civs,number_of_civs)
             if p.had_kid:
@@ -72,17 +77,19 @@ while dead and years <= myears:
                 p.is_preg = [False,None]
             if p.is_preg[0] == True:
                 message += f'{p.id} is preg with {p.is_preg[1].id}s bby for {p.preg_for}\n' 
-
+            j += 1
+        
     if total_died >= len(civs)+len(dead_civs):
         dead = False
-
+    
     if message != '':
         print(message)
         if test_pause:
-            time.sleep(10)
+            #time.sleep(10)
+            print('sleep')
         if city_founded:
             cities_f += 1
-    
+
     print(f'Year: {years} Day: {days} Died: {total_died}')
     if days == mdays:
         days = 0
