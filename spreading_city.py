@@ -39,7 +39,7 @@ years = 0
 dead = True
 total_died = 0
 
-while dead and years <= myears:
+while dead and years < myears:
     test_pause = False
     city_founded = False
     message = ''
@@ -102,7 +102,7 @@ while dead and years <= myears:
         dead = False
     
     if message != '':
-        print(message)
+        #print(message)
         if test_pause:
             #time.sleep(10)
             print('sleep')
@@ -124,4 +124,4 @@ print(f'''Stats\n
     Moves : {moves}''')
 
 dot.render(view=True)
-dot1.render(view=True)
+#dot1.render(view=True)
