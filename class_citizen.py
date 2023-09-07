@@ -44,6 +44,7 @@ class Citizen():
         if self.like_current < self.like(city):
             self.occupy = city
             self.like_current = self.like(city)
+
     
     def like(self,city):
         max = 11
@@ -117,7 +118,7 @@ class Citizen():
             i += 1
 
         if ten_d >= 1:
-            if not self.is_preg[0]:
+            if self.is_preg[0] == False:
                 self.alive = False
                 self.year_day_died = [y,d]
         else:
