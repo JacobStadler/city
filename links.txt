@@ -4,3 +4,4 @@ https://pypi.org/project/perlin-noise/
 https://www.statology.org/normalize-data-between-0-and-1/
 https://numpy.org/numpy-tutorials/index.html
 https://pypi.org/project/opensimplex/0.1/
+https://www.americangeosciences.org/education/k5geosource/content/climate/what-factors-determine-climate
