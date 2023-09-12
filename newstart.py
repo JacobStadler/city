@@ -32,15 +32,8 @@ class Map():
             print(self.tempature_map[i])
 
     def mine_resources(self,x,y):
-        # 0  = deep sea      9 =
-        # 1  = sea          10 =
-        # 2  = beach        11 = 
-        # 3  = river        12 = rolling hills
-        # 4  =              13 = hills
-        # 5  =              14 = mountain base
-        # 6  =              15 = mountains slopes
-        # 7  =              16 = Mountain Tops
-        # 8  = plains
+        # .0           .1       .2       .3    .4           .5            .6        .7              .8               .9
+        # deep water | water | beach | river | plains | rolling hills | hills | mountain base | mountain side | Mountain top
         height = self.height_map[x][y]
         if height >= .3:
             if height >= .3 and height <= .4:
@@ -148,8 +141,18 @@ class Resource():
 class Job():
     def __init__(self,name):
         self.name = name
+    
+    def hunt(self):
+        animals = ['boar','bear','deer','turkey','bison','phesant','geese']
+        killed = r(0,7)
+        return Good(animals[killed])
+    
+    def lumberer(self):
+        wood_types = ['birch','oak','red wood','maple','pine','walnut','hickory','cedar','mahogony','ash','spruce']
+        cut = r(0,10)
+        return Good(wood_types[cut])
 
 grand_size = 100
 souper = Map(grand_size)
-souper.display()
+#souper.display()
 print(souper.mine_resources(r(0,grand_size-1),r(0,grand_size-1)))
