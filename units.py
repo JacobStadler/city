@@ -83,3 +83,12 @@ class Bard(Unit):
     def convince(self,belief,target):
         # you can change/give a target (non player) belief
         target.belief.append(belief)
+
+class Mansion():
+    def __init__(self):
+        self.room = []
+
+class Room():
+    def __init__(self,name):
+        self.name = name
+        
