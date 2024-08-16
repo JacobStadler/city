@@ -1,0 +1,5 @@
+https://graphviz.org/documentation/
+https://git-scm.com/docs/gitignore
+https://pypi.org/project/perlin-noise/
+https://www.statology.org/normalize-data-between-0-and-1/
+https://numpy.org/numpy-tutorials/index.html
