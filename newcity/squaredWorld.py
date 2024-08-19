@@ -4,26 +4,32 @@ from PIL import Image, ImageDraw
 np.set_printoptions(threshold=10000)
 size = 4000
 height = 5000
-width = 10000
+width = 5000
 
 m = np.zeros(shape=(height,width))
 
 #disp[0][size-1] = 5
 
 def build():
-    start_width = ri(1,width-1)
-    start_height = ri(1,height-1)
-    #      y               x
-    m[start_height-1][start_width-1] += 1
-    m[start_height-1][start_width  ] += 1
-    m[start_height  ][start_width-1] += 1
-    m[start_height  ][start_width  ] += 1
+    #start_width = ri(1,width-1)
+    #start_height = ri(1,height-1)
+    #       y               x
+    #m[start_height-1][start_width-1] += 1
+    #m[start_height-1][start_width  ] += 1
+    #m[start_height  ][start_width-1] += 1
+    #m[start_height  ][start_width  ] += 1
     # should be size squared (size*size)
     # ** = exponent
     total_blocks = (height*width)**2+(height*width)**2+(height*width)**2
     total_blocks = (height*width)**2
     # pos is [4,4]
-    pos = [start_height,start_width]
+    pos = []
+    pos += [[ri(1,height-1),ri(1,width-1)]]
+    pos += [[ri(1,height-1),ri(1,width-1)]]
+    pos += [[ri(1,height-1),ri(1,width-1)]]
+    pos += [[ri(1,height-1),ri(1,width-1)]]
+    pos += [[ri(1,height-1),ri(1,width-1)]]
+    
     #print(pos)
     choice_log = []
     progress = 0
@@ -84,7 +90,7 @@ def build():
 
         if (progress/complete) % 500 == 0:
             print(f'{(progress/complete)/10000}%')
-        #print(f'{round((progress/complete),10)}\t\t{progress}/{complete}')
+        #print(f'\t{progress}/{complete}')
         progress += 1
     #print(choice_log)
     print('done')

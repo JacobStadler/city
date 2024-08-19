@@ -1,8 +1,8 @@
-height = 4000
-width = 4000
+height = 5000
+width = 5000
 import numpy as np
 m = np.zeros(shape=(height,width,4))
-print(m)
+#print(m)
 
 #            U R D L
 #m[i][j] == [0,0,0,0]
@@ -34,3 +34,4 @@ def winds():
                     m[i][j][3] -= 1
 
 winds()
+print(m)
