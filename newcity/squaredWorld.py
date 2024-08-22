@@ -96,7 +96,7 @@ def build():
     print('done')
     return list(m)
 
-def draw():
+def bw_draw():
     pixel = 1
     img = Image.new("RGBA", (width * pixel, height * pixel), (100, 100, 100, 100))
     draw = ImageDraw.Draw(img, "RGBA")
@@ -108,9 +108,34 @@ def draw():
     img.save('world.png')
     print('picture done')
 
+def pressure_draw():
+    pixel = 1
+    img = Image.new("RGBA", (width * pixel, height * pixel), (100, 100, 100, 100))
+    draw = ImageDraw.Draw(img, "RGBA")
+    m_max = np.max(m)
+    half = round(np.max(m)/2,0)
+    quart = round(np.max(m)/4,0)
+    print(m_max,half,quart)
+    for i in range(width):
+        for j in range(height):
+            capture = int(m[j][i])
+            if capture < quart:
+                #      R G    B
+                clr = (0,0,capture+25)
+            elif capture >= quart and capture < half:
+                #         R    G    B
+                clr = (capture,0,capture)
+            else:
+                #         R    G B
+                clr = (capture,0,0)
+            draw.rectangle((i,j,i+1,j+1),fill=clr,width=pixel)
+    img.save('pressure.png')
+    print('picture done')
+
 if __name__ == '__main__':
     build()
-    draw()
+    bw_draw()
+    pressure_draw()
 
 #draw()
 #m = np.array2string(m,max_line_width=1000,separator='')
